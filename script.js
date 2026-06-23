@@ -70,7 +70,7 @@ const anim = lottie.loadAnimation({
     renderer: 'svg',
     loop: false,
     autoplay: false,
-    path: 'Designersintro.json',
+    path: 'images/Designersintro.json',
     rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
 });
 
@@ -177,7 +177,7 @@ if (location.protocol === 'file:') {
         </div>`;
 }
 
-fetch('Designers_Workspace.svg')
+fetch('images/Designers_Workspace.svg')
     .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
     .then(svgText => {
         svgCont.innerHTML = svgText;
