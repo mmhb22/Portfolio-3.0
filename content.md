@@ -3,7 +3,7 @@
 ## Clearlight
 accent: #7c6af7
 tag: UX Research · Product Design · 2026
-subtitle: A redesigned experience to wellness, enabling users to stay in control of their sauna session.
+subtitle: A redesigned experience that allows users to stay in control of their saunas from mobile.
 year: 2026
 role: UX/UI Designer
 tools: Figma · Android studio 
@@ -14,10 +14,10 @@ image: images/projects/clearlight-banner.jpg
 
 Clearlight is a wellness company focused on infrared saunas, red light therapy, and cold plunge products for home and commercial use. Their products support recovery, relaxation, and everyday wellness through heat, light, and cold therapy experiences. As the solo designer, I owned the end-to-end redesign of the app experience.
 
-- **Synthesized** pain points from public app reviews
-- **Reviewed** early prototypes against real sauna behavior
-- **Refined** onboarding, controls, and status feedback 
-- **Improved** visual hierarchy across key app flows
+- **Synthesized** Pain points from public app reviews
+- **Reviewed** Early prototypes against real sauna behavior
+- **Refined** Onboarding, controls, and status feedback 
+- **Improved** Visual hierarchy across key app flows
 
 ![Clearlight app — overview](images/projects/clearlight-1.jpg)
 
