@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magdalena Hernandez</title>
+    <meta name="description" content="Magdalena Hernandez — UX, Motion & Design portfolio. Multidisciplinary designer based in the US.">
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Libraries (deferred so they don't block initial render) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
     <script src="https://player.vimeo.com/api/player.js" async></script>
 </head>
@@ -97,7 +100,7 @@
             <div class="b-sidebar closed" id="b-sidebar">
                 <div class="b-sidebar-head">
                     <button class="b-back" onclick="backToWork()">← Back to Work</button>
-                    <button class="b-toggle-btn" onclick="toggleBrowserSidebar()">
+                    <button class="b-toggle-btn" onclick="toggleBrowserSidebar()" aria-label="Toggle sidebar">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="5" height="14" rx="1.5"/><rect x="8" y="1" width="7" height="14" rx="1.5" opacity=".35"/></svg>
                     </button>
                 </div>
@@ -110,7 +113,7 @@
             </div>
             <div class="b-main">
                 <div class="b-sticky-toggle">
-                    <button class="b-toggle-btn b-toggle-closed" id="b-sidebar-open" onclick="toggleBrowserSidebar()">
+                    <button class="b-toggle-btn b-toggle-closed" id="b-sidebar-open" onclick="toggleBrowserSidebar()" aria-label="Open sidebar">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="5" height="14" rx="1.5"/><rect x="8" y="1" width="7" height="14" rx="1.5" opacity=".35"/></svg>
                     </button>
                 </div>
@@ -128,6 +131,7 @@
         <h2 class="sp-title">Currently Listening to:</h2>
         <iframe
             class="spotify-embed"
+            title="Spotify playlist"
             src="https://open.spotify.com/embed/playlist/3vMWztseVfuUttn80O9AAm?utm_source=generator"
             width="100%" height="352" frameBorder="0"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -289,7 +293,7 @@
             Resources were often scarce, which taught me to be imaginative with what I had and value objects, materials, and systems made to last.
         </p>
         <p class="p-body">
-            Some of my earliest inspiration came from everyday life in Mexico: bold colors, repeating patterns [[motifs]], hand-painted storefront typography, and handmade ways of communicating messages. 
+            Some of my earliest inspiration came from everyday life in Mexico: bold colors, repeating patterns, hand-painted storefront typography, and handmade ways of communicating messages. 
             I was fascinated by how something created with very little could still feel powerful. That honesty in DIY visual communication still influences my work today.
         </p>
          <p class="p-body">
@@ -344,8 +348,8 @@
     </div>
 </div>
 
-<!-- Script (after DOM) -->
-<script src="script.js"></script>
+<!-- Script (deferred — runs after DOM and all deferred libraries above) -->
+<script src="script.js" defer></script>
 
 </body>
 </html>
