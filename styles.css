@@ -30,7 +30,7 @@ button:focus-visible { outline: none; }
     --font-b: 'Inter', sans-serif;
 }
 
-html { overflow-x: hidden; scroll-behavior: auto; }
+html { overflow-x: hidden; scroll-behavior: auto; background: var(--bg); }
 
 body {
     background: var(--bg);
