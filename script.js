@@ -41,9 +41,8 @@ const heroFoot  = document.querySelector('.hero-foot');
 const scrollBar = document.getElementById('scroll-bar');
 
 // On portrait mobile the 16:9 scene uses meet (letterbox) so it fits the width
-// without cropping. On desktop slice fills the screen edge-to-edge.
 const isMobile = window.matchMedia('(max-width: 767px)').matches;
-const sceneAR  = isMobile ? 'xMidYMid meet' : 'xMidYMid slice';
+const sceneAR  = 'xMidYMid slice';
 
 // ── Lottie scroll scrub ───────────────────────────────────────────────────────
 // Designersintro-4.json: 482 frames, 29 fps
@@ -74,7 +73,7 @@ anim.addEventListener('DOMLoaded', () => {
     ScrollTrigger.create({
         trigger: '#hero',
         start: 'top top',
-        end: '+=280%',
+        end: isMobile ? '+=180%' : '+=280%',
         pin: true,
         scrub: 0.5,
         onUpdate: self => {
