@@ -30,7 +30,7 @@ button:focus-visible { outline: none; }
     --font-b: 'Inter', sans-serif;
 }
 
-html { overflow-x: hidden; scroll-behavior: auto; background: var(--bg); }
+html { overflow-x: hidden; scroll-behavior: auto; background: var(--workspace-bg); overscroll-behavior: none; }
 
 body {
     background: var(--bg);
@@ -39,6 +39,7 @@ body {
     font-size: 15px;
     font-weight: 300;
     overflow-x: hidden;
+    overscroll-behavior: none;
 }
 
 /* ── Page veil ───────────────────────────────────────────── */
