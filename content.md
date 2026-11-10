@@ -226,195 +226,132 @@ The redesign improved visibility for active and upcoming huddles, reduced manual
 
 # Design
 
-## Aura
-accent: #c9a96e
-tag: Brand Identity · Strategy · 2024
-subtitle: Building a brand for a premium wellness studio that needed to feel warm and grounded rather than clinical.
-year: 2024
-role: Brand Designer · Creative Director
-tools: Illustrator · InDesign · Figma
-duration: 12 weeks
-image: images/projects/aura-banner.jpg
+
+## Clearlight Manual
+accent: #c47a35
+tag: Publication Design · Product Manual · 2026
+subtitle: Booklet design and custom assembly illustrations for Clearlight's wellness product line.
+year: 2026
+role: Publication Designer · Illustrator
+tools: InDesign · Illustrator · Figma
+duration: 3 weeks
+image: images/projects/Manual/CL_Banner_Manual.png
+flipbook: true
 
 ### Overview
 
-Aura is a wellness studio offering somatic therapy, movement classes, and breathwork in a single space. They came with a name, a location, and a clear vision — but no visual language. The brief asked for warmth without softness, premium without exclusion, and a mark that could work across print, digital, and physical wayfinding.
+Clearlight produces a range of wellness products that ship with assembly and setup instructions. The existing documentation was text-heavy and difficult to follow — the goal was to redesign it as a clear, well-structured booklet that customers could actually use during unboxing.
 
-![Final brand identity — wordmark, illustration mark, and colour system](images/projects/aura-1.jpg)
+The work involved two main areas: reformatting and typesetting dense technical copy into a readable booklet layout, and creating custom step-by-step illustrations showing how to assemble each product.
 
-- **Deliverables** Logo system, colour palette, typography, brand guidelines, print collateral
-- **Client** Independent studio owner, single location
-- **Constraint** Budget limited physical production to two print colours
+### Design
 
-### The Problem
+The booklet layout follows a spread-based structure — each step gets enough space to breathe, with illustrations and copy working together rather than competing. Typography and hierarchy were designed to guide a reader who is assembling something with their hands, not sitting at a desk.
 
-The wellness industry defaults to a narrow visual vocabulary: clean sans-serifs, pale greens, abstract organic marks. Aura needed to stand out within a category that had become visually homogeneous, without reading as alternative or niche.
+The illustrations were drawn in Illustrator to be clear and consistent across different product types — showing parts, orientation, and order of assembly without relying on photography.
 
-Early moodboard sessions revealed that the client responded strongly to craft, materiality, and editorial restraint — not to the softness typically associated with wellness branding. The design problem was finding a visual language that honoured that instinct.
-
-- **Category trap** Most wellness brands converge on the same soft, approachable aesthetic
-- **Client tension** Wanted premium feel without alienating clients who associate luxury with cold or inaccessible
-- **Two-colour constraint** Every element had to work in two spot colours across all print applications
-
-### Research
-
-Conducted a brand positioning workshop with the studio owner using a modified Brand Archetype framework and a competitor mapping exercise covering 40 wellness brands across the UK market. Developed three strategic directions before moving to visual exploration.
-
-The winning direction centred on the archetype of the Sage — knowledgeable, grounded, trustworthy — expressed through a visual language drawn from botanical illustration and early 20th century type design.
-
-![Competitor mapping and brand archetype positioning](images/projects/aura-2.jpg)
-
-- **Workshop duration** Full day, four exercises
-- **Competitor audit** 40 brands across yoga, therapy, breathwork, and integrative health
-- **Strategic directions developed** Three (Sage, Caretaker, Explorer archetypes)
-
-### Solution
-
-The final mark is a wordmark in a custom-adjusted serif paired with a secondary illustration mark: a cross-section of a seed pod drawn in a precise, botanical style. The colour palette centres on two warm earth tones — a deep umber and a raw linen — printable as Pantone spot colours.
-
-Brand guidelines were delivered as a 48-page PDF structured for use by non-designers, with applied examples covering stationery, signage, digital social formats, and packaging.
-
-![Brand applications — stationery, signage, and packaging](images/projects/aura-3.jpg)
-
-- **Wordmark** Adjusted Garamond with custom ligature between A and U
-- **Illustration mark** Botanical seed cross-section, usable as standalone icon or in combination with wordmark
-- **Palette** Pantone 478 C (umber) + Pantone 9183 C (linen), with digital RGB/HEX equivalents
-
-### Results
-
-Aura launched three months after brand delivery. The studio reported that brand recognition — clients mentioning the visual identity unprompted — was immediate and consistent. The two-colour constraint ultimately became a design asset: all print materials have a coherent, considered quality that digital-first brands rarely achieve.
-
-| 48 | 2 | 40 |
-|----|---|-----|
-| Page brand guidelines | Spot colour system | Brands audited in positioning research |
+### Pages
+![](images/projects/Manual/CL_Manual_RLT__Page_01.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_02.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_03.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_04.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_05.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_06.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_07.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_08.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_09.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_10.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_11.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_12.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_13.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_14.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_15.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_16.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_17.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_18.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_19.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_20.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_21.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_22.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_23.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_24.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_25.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_26.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_27.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_28.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_29.jpg)
+![](images/projects/Manual/CL_Manual_RLT__Page_30.jpg)
 
 ---
 
-## Lumière
-accent: #d4a853
-tag: Art Direction · Campaign · 2023
-subtitle: Art directing a product launch campaign for an independent fragrance house, across print and digital.
-year: 2023
-role: Art Director
-tools: Lightroom · InDesign · Figma · Capture One
-duration: 6 weeks
-image: images/projects/lumiere-banner.jpg
+## Clearlight Campaigns
+accent: #c47a35
+tag: Marketing · Ad Campaigns · 2024–2026
+subtitle: Ad campaign design across digital and print for Clearlight's wellness product line.
+year: 2024–2026
+role: Designer
+tools: Photoshop · Illustrator · InDesign · Figma
+duration: —
+image: images/projects/Campaigns/CL_Banner_Ads.png
 
 ### Overview
 
-Lumière is an independent fragrance house focused on natural and botanical ingredients. Their third collection launch needed a campaign that communicated the brand's craft and provenance without reading as rustic — the aesthetic trap that often catches natural beauty brands.
+Ongoing campaign work for Clearlight spanning digital ads, social media assets, email, and print collateral. The work covers product launches, seasonal promotions, and evergreen wellness messaging — all within Clearlight's brand system.
 
-The project covered campaign concept, creative direction for a two-day shoot, print advertising (three formats), and digital assets for paid social.
-
-![Campaign hero image — botanical still life composition](images/projects/lumiere-1.jpg)
-
-- **Deliverables** Campaign concept, shoot direction, print ads, digital asset suite
-- **Scope** 3 print formats, 12 digital formats (social + display)
-- **Photography** Directed external photographer; provided shot list and on-set direction
-
-### The Problem
-
-Lumière's existing visual language was inconsistent across channels. Their digital presence leaned into a pale, washed-out aesthetic that felt trendy but undifferentiated. Their retail presence had a warmer, more elevated quality. The campaign needed to unify these registers and give the brand a more singular, memorable visual character.
-
-- **Inconsistency** Digital and print expressions read as two different brands
-- **Category cliché** Natural fragrance brands default to botanical macro photography that all looks alike
-- **Production reality** Two-day shoot window, modest budget, single location (rented studio)
-
-### Research
-
-Analysed 30 luxury fragrance campaign archives from the past decade, mapping compositional strategies, colour temperature choices, and styling approaches. Identified two dominant modes — dramatic chiaroscuro (high-end heritage brands) and soft diffusion (emerging naturals) — and found a clear gap in the middle: precise, graphic, light-forward compositions that feel contemporary without chasing trend.
-
-Developed a campaign concept called "Residue" — exploring what remains after scent fades, expressed through still-life compositions of spent botanical material.
-
-![Visual reference audit — compositional gap analysis](images/projects/lumiere-2.jpg)
-
-- **Archive research** 30 campaigns across 15 brands
-- **Concept routes developed** Three (Residue, Origin, Emergence)
-- **Client review rounds** Two, with minor adjustments between concept and final direction
-
-### Solution
-
-The final campaign used a warm, directional light source to create precise shadows across botanical still-life arrangements. Every image was composed on a grid — unusual for fragrance campaigns, which typically favour asymmetric arrangements — giving the series a graphic, almost architectural quality.
-
-Colour grading was anchored to a warm amber key with controlled desaturation in the shadows, creating a distinctive palette that read consistently across print and screen.
-
-![Print and digital asset suite across all three formats](images/projects/lumiere-3.jpg)
-
-- **Concept** "Residue" — still life compositions of spent botanical material
-- **Composition system** Grid-based, geometric, symmetry-forward
-- **Colour key** Warm amber highlight, desaturated shadow, consistent across all formats
-
-### Results
-
-The campaign ran across print (fragrance trade press and selected lifestyle titles) and paid digital. Lumière reported the collection sold out within six weeks of launch — their fastest-selling collection to date. The visual language from this campaign was subsequently adopted as the brand's primary aesthetic direction.
-
-| 6 | 12 | 3 |
-|---|----|----|
-| Weeks from brief to delivery | Digital asset formats | Print advertising formats |
+![](images/projects/Campaigns/CL_SOTM_Ad.png)
+![](images/projects/Campaigns/CL_Social-Media_Post.png)
+![](images/projects/Campaigns/CL_Special_Ad.png)
+![](images/projects/Campaigns/CL_Wellnes_Ad.png)
+![](images/projects/Campaigns/CL_Wellness_test_Ad.png)
 
 ---
 
-## Forma
-accent: #8ecfb0
-tag: Systems Design · 2023
-subtitle: A modular design system built from scratch for a B2B SaaS platform serving operations teams.
-year: 2023
-role: Design Systems Designer
-tools: Figma · Storybook · Zeroheight
-duration: 16 weeks
-image: images/projects/forma-banner.jpg
+# Photography
 
-### Overview
+## Film
+accent: #b89c7a
+tag: Photography · 35mm and 120 Film
+subtitle: Personal work shot on film.
+year: 2019–2024
+role: Photographer
+tools: Pentax 6x7 · Minolta x-370 · Canon A-1 · Canon Snappy S
+duration: —
+image: images/projects/photography/film/Photography_film_001.jpg
+gallery: true
 
-Forma was a design system project for a B2B SaaS platform whose product had outgrown its initial UI. The platform had accumulated three years of visual debt: inconsistent spacing, multiple competing type scales, and component duplication across a product suite of seven tools. The brief was to build a system from scratch with engineer adoption as a primary success metric.
+### Gallery
 
-![Forma component library overview — tokens, components, and documentation](images/projects/forma-1.jpg)
+![](images/projects/photography/film/Photography_film_001.jpg)
+![](images/projects/photography/film/Photography_film_002.jpg)
+![](images/projects/photography/film/Photography_film_003.jpg)
+![](images/projects/photography/film/Photography_film_004.jpg)
+![](images/projects/photography/film/Photography_film_005.jpg)
+![](images/projects/photography/film/Photography_film_006.jpg)
+![](images/projects/photography/film/Photography_film_007.jpg)
+![](images/projects/photography/film/Photography_film_008.jpg)
+![](images/projects/photography/film/Photography_film_009.jpeg)
+![](images/projects/photography/film/Photography_film_010.jpeg)
+![](images/projects/photography/film/Photography_film_011.jpg)
+![](images/projects/photography/film/Photography_film_012.jpg)
 
-- **Deliverables** Component library (Figma), token system, documentation site, migration guide
-- **Platform scope** Seven product areas across a single web application
-- **Team** One designer (me), two front-end engineers, one product manager
+---
 
-### The Problem
+## Digital
+accent: #4a6a9a
+tag: Photography · Digital
+subtitle: Digital photography exploring composition, color, and everyday subjects.
+year: 2020–2024
+role: Photographer
+tools: Canon · Lightroom
+duration: —
+image: images/archive/archive-5.jpg
+gallery: true
 
-Design systems fail for two reasons: designers don't maintain them, or engineers don't adopt them. On this project, the prior attempts at a system had failed on the second point. Engineers had found the documentation too abstract and the component scope too narrow to be useful in practice.
+### Gallery
 
-An audit of the existing product surfaced 47 unique button variants, 12 competing colour tokens, and no shared spacing scale. Every new feature was designed in isolation.
-
-- **Audit findings** 47 button variants, 12 colour token values, 0 shared spacing tokens
-- **Adoption failure mode** Previous system too abstract for engineering team to apply directly
-- **Risk** New system would face the same adoption barrier without deliberate engineering involvement
-
-### Research
-
-Ran a two-week discovery phase interviewing both the design team (3 designers) and the front-end engineering team (6 engineers) separately, then together. The joint session surfaced a fundamental misalignment: designers thought in components, engineers thought in tokens. The system needed to meet both mental models.
-
-Also audited three comparable B2B SaaS design systems publicly available (Atlassian, Radix, IBM Carbon) to extract structural approaches for token taxonomy and component documentation format.
-
-![Token architecture — three-tier system mapping primitive to component](images/projects/forma-2.jpg)
-
-- **Interviews** 9 (3 designers, 6 engineers, in separate and joint sessions)
-- **Systems audited** Atlassian Design System, Radix UI, IBM Carbon
-- **Key tension surfaced** Designer-centric vs engineer-centric mental models of components
-
-### Solution
-
-Forma was built token-first: a three-tier token system (primitive, semantic, component) gave engineers a clear mental model and allowed themes (light, dark, a planned high-contrast mode) to be applied without touching component code.
-
-The component library was scoped to 32 components covering 94% of recurring UI patterns. Each component in Figma was accompanied by a usage note, a "when not to use" guide, and a Storybook link.
-
-![Component library in Figma — button, input, and data display families](images/projects/forma-3.jpg)
-
-- **Token system** Three tiers — primitive (raw values), semantic (purpose-named), component (scoped)
-- **Component count** 32 (covering 94% of recurring UI patterns across seven product areas)
-- **Documentation** Zeroheight site with usage guidance, accessibility notes, and Storybook embeds
-
-### Results
-
-Three months post-launch, engineering adoption was tracked via component usage in pull requests. New feature development time dropped as engineers stopped building components from scratch. The design team reduced handoff time per feature.
-
-| 32 | 94% | −40% |
-|----|-----|------|
-| Components in library | UI pattern coverage | Feature handoff time reduction |
+![Are You Still Lovin It?](images/archive/archive-4.jpg)
+![Music](images/archive/archive-8.jpg)
+![Impossível](images/archive/archive-7.jpg)
 
 ---
 
@@ -529,6 +466,3 @@ Features highlighted include improvements in time-lapse, 4K resolution, low-ligh
 <iframe src="https://player.vimeo.com/video/349959191?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="width:100%;aspect-ratio:16/9;display:block;border-radius:8px;" title="XS Demo Video 2018"></iframe>
 <iframe src="https://player.vimeo.com/video/349959201?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="width:100%;aspect-ratio:16/9;display:block;border-radius:8px;" title="XR Demo Video 2018"></iframe>
 </div>
-
-
-# Design

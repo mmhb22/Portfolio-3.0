@@ -3,16 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magdalena Hernandez</title>
-    <meta name="description" content="Magdalena Hernandez — UX, Motion & Design portfolio. Multidisciplinary designer based in the US.">
+    <title>Magdalena Hernandez — Designer</title>
+    <meta name="description" content="Multidisciplinary designer with over a decade of experience in UX/UI, visual communication, and creative technology. Based in Oakland, CA.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://magdalenahernandez.design/">
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website">
+    <meta property="og:url"         content="https://magdalenahernandez.design/">
+    <meta property="og:title"       content="Magdalena Hernandez — Designer">
+    <meta property="og:description" content="Multidisciplinary designer with over a decade of experience in UX/UI, visual communication, and creative technology. Based in Oakland, CA.">
+    <meta property="og:image"       content="https://magdalenahernandez.design/images/Designers_Workspace-5.png">
+    <meta property="og:locale"      content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="Magdalena Hernandez — Designer">
+    <meta name="twitter:description" content="Multidisciplinary designer with over a decade of experience in UX/UI, visual communication, and creative technology.">
+    <meta name="twitter:image"       content="https://magdalenahernandez.design/images/Designers_Workspace-5.png">
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preload" as="fetch" href="images/Designersintro-4.json">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"></noscript>
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
@@ -23,39 +42,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-    <script src="https://player.vimeo.com/api/player.js" async></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Magdalena Hernandez",
+      "jobTitle": "Designer",
+      "url": "https://magdalenahernandez.design",
+      "email": "hmagdesign@proton.me",
+      "description": "Multidisciplinary designer with over a decade of experience in UX/UI, visual communication, and creative technology.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Oakland",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      },
+      "sameAs": ["https://www.linkedin.com/in/mmhbdesign/"]
+    }
+    </script>
 </head>
 <body>
 
-<!-- Mobile wall — shown on small screens while mobile portfolio is in progress -->
-<div id="mobile-wall">
-    <p class="mw-tag">Magdalena Hernandez</p>
-    <h1 class="mw-title">Mobile portfolio<br><em>in construction.</em></h1>
-    <p class="mw-body">The full experience is designed for desktop.<br>A mobile version is on the way.</p>
-    <a class="mw-link" href="mailto:hmagdesign@proton.me">hmagdesign@proton.me</a>
-</div>
 
 <!-- Page veil — hides state restoration jumps on refresh, lifted once async init settles -->
-<div id="page-veil"></div>
+<div id="page-veil" aria-hidden="true"></div>
 
 <!-- Cursor -->
-<div id="cur"></div>
-<div id="cur-ring"></div>
+<div id="cur" aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true"></div>
 
 <!-- Tooltip -->
-<div id="tooltip"></div>
+<div id="tooltip" aria-hidden="true"></div>
 
 <!-- Scroll progress bar -->
-<div id="scroll-bar"></div>
+<div id="scroll-bar" aria-hidden="true"></div>
 
-<!-- ══════════════════════════════════════════
-     HERO
-     Layer 1 (z-index 1): SVG workspace — revealed as Lottie fades
-     Layer 2 (z-index 3): Lottie intro  — fades out on scroll
-     Layer 3 (z-index 4): Scroll cue
-══════════════════════════════════════════ -->
-<section id="hero">
+<!-- Hero: Lottie intro fades out on scroll, SVG workspace fades in -->
+<main id="hero">
 
     <div id="svg-container"></div>
     <p class="workspace-hint">Click the objects to explore</p>
@@ -73,20 +96,18 @@
         </div>
     </div>
 
-</section>
+</main>
 
 <!-- Overlay backdrop -->
-<div id="backdrop"></div>
+<div id="backdrop" aria-hidden="true"></div>
 
-<!-- ══════════════════════════════════════════
-     OVERLAYS
-══════════════════════════════════════════ -->
+<!-- Overlays -->
 
 <!-- Computer: Browser -->
-<div class="overlay" id="ov-computer">
+<div class="overlay" id="ov-computer" role="dialog" aria-modal="true" aria-label="Portfolio work">
     <div class="browser">
         <div class="browser-bar">
-            <div class="b-dot" onclick="closeOverlay()" title="Close"></div>
+            <button class="b-dot" onclick="closeOverlay()" aria-label="Close"></button>
             <div class="b-dot"></div>
             <div class="b-dot"></div>
             <div class="b-url">magdalenahernandez.design/work</div>
@@ -94,6 +115,7 @@
         <div class="browser-tabs">
             <button class="b-tab active" onclick="switchBrowserTab(this)">UX & UI</button>
             <button class="b-tab" onclick="switchBrowserTab(this)">Design</button>
+            <button class="b-tab" onclick="switchBrowserTab(this)">Photography</button>
             <button class="b-tab" onclick="switchBrowserTab(this)">Motion</button>
         </div>
         <div class="browser-body">
@@ -120,162 +142,193 @@
                 <div class="b-content" id="b-content"></div>
             </div>
         </div>
+        <!-- Photo lightbox — shared across all gallery projects -->
+        <div class="bc-photo-lb" id="bc-photo-lb">
+            <button class="bc-photo-lb-close" onclick="_closePhotoLb()">✕</button>
+            <button class="bc-photo-lb-prev" onclick="_photoLbNav(-1)">&#8592;</button>
+            <img class="bc-photo-lb-img" id="bc-photo-lb-img" src="" alt="">
+            <button class="bc-photo-lb-next" onclick="_photoLbNav(1)">&#8594;</button>
+        </div>
     </div>
 </div>
 
 <!-- Headphones: Spotify -->
-<div class="overlay" id="ov-headphones">
-    <div class="spotify-panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="sp-label">Music</p>
-        <h2 class="sp-title">Currently Listening to:</h2>
-        <iframe
-            class="spotify-embed"
-            title="Spotify playlist"
-            src="https://open.spotify.com/embed/playlist/3vMWztseVfuUttn80O9AAm?utm_source=generator"
-            width="100%" height="352" frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
-        </iframe>
+<div class="overlay" id="ov-headphones" role="dialog" aria-modal="true" aria-label="Currently listening">
+    <div class="browser browser-slim">
+        <div class="browser-bar">
+            <button class="b-dot" onclick="closeOverlay()" aria-label="Close"></button>
+            <div class="b-dot"></div>
+            <div class="b-dot"></div>
+            <div class="b-url">magdalenahernandez.design · Currently Listening</div>
+        </div>
+        <div class="browser-body browser-body-embed browser-body-music">
+            <p class="p-tag">Music</p>
+            <h2 class="p-title">Currently <em>Listening.</em></h2>
+            <iframe
+                class="spotify-embed"
+                title="Spotify playlist"
+                src="https://open.spotify.com/embed/playlist/3vMWztseVfuUttn80O9AAm?utm_source=generator"
+                width="100%" height="100%" frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+            </iframe>
+        </div>
     </div>
 </div>
 
 <!-- Walnut: Cat -->
-<div class="overlay" id="ov-walnut">
-    <div class="cat-panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <h2 class="cat-name">Walnut, CCO</h2>
-        <p class="cat-sub">Chief Cuddle Officer</p>
-        <div class="cat-facts">
-            <p class="cat-fact">Walnut is a two-year-old tuna connoisseur who is absolutely nuts.</p>
-            <p class="cat-fact">She has reviewed every design project by sitting directly on the keyboard at the worst possible moment.</p>
-            <p class="cat-fact">Her hobbies include hallway soccer, chasing Nerf darts through the air, doing somersaults, and neighborhood surveillance from the window.</p>
-            <p class="cat-fact">Her archenemies? Her vet, Rebecca, and shoes.</p>
+<div class="overlay" id="ov-walnut" role="dialog" aria-modal="true" aria-label="Meet Walnut, Chief Cuddle Officer">
+    <div class="peg-frame">
+        <button class="close-btn peg-close" onclick="closeOverlay()">✕</button>
+        <div class="peg-content peg-centered">
+            <h2 class="cat-name">Walnut, CCO</h2>
+            <p class="cat-sub">Chief Cuddle Officer</p>
+            <div class="cat-facts">
+                <p class="cat-fact">Walnut is a two-year-old tuna connoisseur who is absolutely nuts.</p>
+                <p class="cat-fact">She has reviewed every design project by sitting directly on the keyboard at the worst possible moment.</p>
+                <br>
+                <p class="cat-fact">Her hobbies include hallway soccer, chasing Nerf darts through the air, doing somersaults, and neighborhood surveillance from the window.</p>
+                <p class="cat-fact">Her archenemies? Her vet, Rebecca, and shoes.</p>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Calendar: Schedule -->
-<div class="overlay" id="ov-calendar">
-    <div class="panel cal-panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="p-tag">Schedule</p>
-        <h2 class="p-title">Let's <em>talk.</em></h2>
-        <div class="calendly-inline-widget calendly-embed"
-             data-url="https://calendly.com/hbmmagda22/30min?background_color=1e1a16&text_color=ffffff&primary_color=ed7f3e"></div>
+<div class="overlay" id="ov-calendar" role="dialog" aria-modal="true" aria-label="Schedule a chat">
+    <div class="browser browser-slim">
+        <div class="browser-bar">
+            <button class="b-dot" onclick="closeOverlay()" aria-label="Close"></button>
+            <div class="b-dot"></div>
+            <div class="b-dot"></div>
+            <div class="b-url">magdalenahernandez.design/schedule</div>
+        </div>
+        <div class="browser-body browser-body-embed browser-body-calendar">
+            <p class="p-tag">Calendar</p>
+            <h2 class="p-title">Schedule <em>a Chat.</em></h2>
+            <div class="calendly-inline-widget calendly-embed"
+                 data-url="https://calendly.com/hbmmagda22/30min?background_color=1e1a16&text_color=ffffff&primary_color=ed7f3e"></div>
+        </div>
     </div>
 </div>
 
 <!-- Designer: About -->
-<div class="overlay" id="ov-designer">
-    <div class="panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="p-tag">About</p>
-        <h2 class="p-title">¡Hola! I'm <em>Magdalena.</em></h2>
-        <p class="p-body">
-            I’m a multidisciplinary designer with over a decade of experience working at the intersection of UX/UI, visual communication, and creative technology.
-        </p>
-        <p class="p-body">
-            I’m deeply curious about how people interact with the world around them from digital interfaces to everyday objects. 
-            My work is shaped by systems thinking, curiosity, and a desire to create experiences that are clear, useful, and engaging.
-        </p>
-         <p class="p-body">
-            Whether I’m designing an app, shaping a campaign, prototyping interactions, or exploring a new medium, I’m always looking for opportunities to make complex things feel simple.
-        </p>
-        <p class="p-body">
-            Outside of design, you’ll usually find me playing puzzle platformers, exploring thrift stores, or playing Chopped in the kitchen with my partner. 
-        </p>
-        <p class="p-body p-contact">
-            Let's Work Together! &nbsp;·&nbsp;
-            <a class="p-email" href="mailto:hmagdesign@proton.me">hmagdesign@proton.me</a>
-            <a class="social-icon" href="https://www.linkedin.com/in/mmhbdesign/" target="_blank" rel="noopener" title="LinkedIn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-            </a>
-        </p>
-        <div class="about-chip">
-            <span class="chip">Graphic Design</span>
-            <span class="chip">UX & UI</span>
-            <span class="chip">Art Direction</span>
-            <span class="chip">Photo Editing</span>
-            <span class="chip">UX Research</span>
+<div class="overlay" id="ov-designer" role="dialog" aria-modal="true" aria-label="About Magdalena">
+    <div class="peg-frame">
+        <button class="close-btn peg-close" onclick="closeOverlay()">✕</button>
+        <div class="peg-content">
+            <p class="p-tag">About</p>
+            <h2 class="p-title">¡Hola! I’m <em>Magdalena.</em></h2>
+            <p class="p-body">
+                I’m a multidisciplinary designer with over a decade of experience working across UX/UI, visual communication, and creative technology.
+            </p>
+            <p class="p-body">
+                I’m deeply curious about how people interact with the world around them, from digital interfaces to everyday objects. My work is shaped by systems thinking and a desire to create clear, useful, and engaging experiences.
+            </p>
+            <p class="p-body">
+                Whether I’m designing an app, shaping a campaign, prototyping interactions, or exploring a new medium, I’m always looking for ways to make complex things feel simple.
+            </p>
+            <p class="p-body">
+                Outside of design, you’ll usually find me playing puzzle platformers, exploring thrift stores, or playing Chopped in the kitchen with my partner.
+            </p>
+            <p class="p-body p-contact">
+                Let’s Work Together! &nbsp;·&nbsp;
+                <a class="p-email" href="mailto:hmagdesign@proton.me">hmagdesign@proton.me</a>
+                <a class="social-icon" href="https://www.linkedin.com/in/mmhbdesign/" target="_blank" rel="noopener" title="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+            </p>
+            <div class="about-chip">
+                <span class="chip">Graphic Design</span>
+                <span class="chip">UX & UI</span>
+                <span class="chip">Art Direction</span>
+                <span class="chip">Photo Editing</span>
+                <span class="chip">UX Research</span>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Microcontroller: Hobbies -->
-<div class="overlay" id="ov-microcontroller">
-    <div class="panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="p-tag">Beyond the screen</p>
-        <h2 class="p-title">How I <em>make things.</em></h2>
-        <p class="p-body">
-           My curiosity doesn’t stop at pixels. 
-           I’m drawn to physical objects: how they’re built, assembled, repaired, and interacted with over time.
-        </p>
-        <p class="p-body">
-           I’m fascinated by the thinking behind everyday things: the problems they solve, the constraints that shaped them, and the countless small decisions that influence how they function.
-        </p>
-        <p class="p-body">
-          Whether I’m taking apart old electronics, building prototypes, or studying a mechanism, I’m always looking to understand how things work and why they were made that way.
-        </p>
-        <div class="hobby-grid">
-            <span class="h-tag">Electronics & tinkering</span>
-            <span class="h-tag">Animation</span>
-            <span class="h-tag">Photography</span>
-            <span class="h-tag">3D Printing</span>
-            <span class="h-tag">Basic Coding</span>
-            <span class="h-tag">Printmaking</span>
-            <span class="h-tag">Laser cutting</span>
-            <span class="h-tag">Mixing Media</span>
+<div class="overlay" id="ov-microcontroller" role="dialog" aria-modal="true" aria-label="Hobbies beyond the screen">
+    <div class="peg-frame">
+        <button class="close-btn peg-close" onclick="closeOverlay()">✕</button>
+        <div class="peg-content">
+            <p class="p-tag">Beyond the screen</p>
+            <h2 class="p-title">How I <em>make things.</em></h2>
+            <p class="p-body">
+               My curiosity doesn’t stop at pixels.
+               I’m drawn to physical objects: how they’re built, assembled, repaired, and interacted with over time.
+            </p>
+            <p class="p-body">
+               I’m fascinated by the thinking behind everyday things: the problems they solve, the constraints that shaped them, and the countless small decisions that influence how they function.
+            </p>
+            <p class="p-body">
+              Whether I’m taking apart old electronics, building prototypes, or studying a mechanism, I’m always looking to understand how things work and why they were made that way.
+            </p>
+            <div class="hobby-grid">
+                <span class="h-tag">Electronics & tinkering</span>
+                <span class="h-tag">Animation</span>
+                <span class="h-tag">Photography</span>
+                <span class="h-tag">3D Printing</span>
+                <span class="h-tag">Basic Coding</span>
+                <span class="h-tag">Printmaking</span>
+                <span class="h-tag">Laser cutting</span>
+                <span class="h-tag">Mixing Media</span>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Risograph: Traditional mediums -->
-<div class="overlay" id="ov-risograph">
-    <div class="panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="p-tag">Traditional Mediums</p>
-        <h2 class="p-title">The <em>analog</em> side.</h2>
-        <p class="p-body">
-            Risograph and screen printing hold a special place in my practice. 
-            Their grain, ink registration, and tactile qualities can't be replicated on a screen and that's exactly why I love them.
-        </p>
-        <p class="p-body">
-            Working with traditional mediums keeps me connected to process, craft, and materiality. 
-            It encourages experimentation, embraces imperfection, and leaves room for the happy accidents that often lead to unexpected discoveries.
-        </p>
+<div class="overlay" id="ov-risograph" role="dialog" aria-modal="true" aria-label="Traditional mediums">
+    <div class="peg-frame">
+        <button class="close-btn peg-close" onclick="closeOverlay()">✕</button>
+        <div class="peg-content">
+            <p class="p-tag">Traditional Mediums</p>
+            <h2 class="p-title">The <em>analog</em> side.</h2>
+            <p class="p-body">
+                Risograph and screen printing hold a special place in my practice.
+                Their grain, ink registration, and tactile qualities can't be replicated on a screen and that's exactly why I love them.
+            </p>
+            <p class="p-body">
+                Working with traditional mediums keeps me connected to process, craft, and materiality.
+                It encourages experimentation, embraces imperfection, and leaves room for the happy accidents that often lead to unexpected discoveries.
+            </p>
+        </div>
     </div>
 </div>
 
 <!-- Diploma: Education -->
-<div class="overlay" id="ov-diploma">
-    <div class="panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="p-tag">Education</p>
-        <h2 class="p-title">Formally <em>trained,</em> always learning.</h2>
-        <p class="p-body">
-            My foundation in design and photography shaped the way I observe, think, and create. 
-            Curious by nature, I’m constantly exploring new skills through classes, workshops, and self-directed learning. 
-            For me, education is an ongoing process of refining, expanding, and challenging the way I see the world.
-        </p>
-        <div class="edu-list">
-            <div class="edu-item">
-                <p class="edu-year">2017</p>
-                <div>
-                    <p class="edu-degree">B.A. Design Studies</p>
-                    <p class="edu-detail">Emphasis in Graphic Design · Minor in Photography</p>
-                    <p class="edu-school">San Jose State University</p>
+<div class="overlay" id="ov-diploma" role="dialog" aria-modal="true" aria-label="Education">
+    <div class="peg-frame">
+        <button class="close-btn peg-close" onclick="closeOverlay()">✕</button>
+        <div class="peg-content">
+            <p class="p-tag">Education</p>
+            <h2 class="p-title">Formally <em>trained,</em> always learning.</h2>
+            <p class="p-body">
+                My foundation in design and photography shaped the way I observe, think, and create.
+                Curious by nature, I’m constantly exploring new skills through classes, workshops, and self-directed learning.
+                For me, education is an ongoing process of refining, expanding, and challenging the way I see the world.
+            </p>
+            <div class="edu-list">
+                <div class="edu-item">
+                    <p class="edu-year">2017</p>
+                    <div>
+                        <p class="edu-degree">B.A. Design Studies</p>
+                        <p class="edu-detail">Emphasis in Graphic Design · Minor in Photography</p>
+                        <p class="edu-school">San Jose State University</p>
+                    </div>
                 </div>
-            </div>
-            <div class="edu-item">
-                <p class="edu-year">2024</p>
-                <div>
-                    <p class="edu-degree">UX & UI Bootcamp</p>
-                    <p class="edu-detail">Product design, research, and interaction design</p>
-                    <p class="edu-school">Memorisely</p>
+                <div class="edu-item">
+                    <p class="edu-year">2024</p>
+                    <div>
+                        <p class="edu-degree">UX & UI Bootcamp</p>
+                        <p class="edu-detail">Product design, research, and interaction design</p>
+                        <p class="edu-school">Memorisely</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,54 +336,56 @@
 </div>
 
 <!-- Map: Origin -->
-<div class="overlay" id="ov-map">
-    <div class="panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="p-tag">Born in</p>
-        <h2 class="p-title">Hidalgo, <em>Mexico.</em></h2>
-        <p class="p-body">
-            Born and raised in Hidalgo, Mexico, I grew up surrounded by creativity built from limitation. 
-            Resources were often scarce, which taught me to be imaginative with what I had and value objects, materials, and systems made to last.
-        </p>
-        <p class="p-body">
-            Some of my earliest inspiration came from everyday life in Mexico: bold colors, repeating patterns, hand-painted storefront typography, and handmade ways of communicating messages. 
-            I was fascinated by how something created with very little could still feel powerful. That honesty in DIY visual communication still influences my work today.
-        </p>
-         <p class="p-body">
-            Moving to the United States brought me the opportunity to put language and structure to interests around design, visual communication, and technology I had been developing for years.
-        </p>
-          <p class="p-body">
-            Living between both experiences shaped my perspective in a unique way. Mexico taught me creativity through limitation, intuition, and improvisation. 
-            The U.S. showed me the tools and opportunities to combine hands-on craft with digital design and technology.
-        </p>
-         <p class="p-body">
-           Today, Oakland, California is home.
-        </p>
+<div class="overlay" id="ov-map" role="dialog" aria-modal="true" aria-label="Origin: Hidalgo, Mexico">
+    <div class="peg-frame">
+        <button class="close-btn peg-close" onclick="closeOverlay()">✕</button>
+        <div class="peg-content">
+            <p class="p-tag">Born in</p>
+            <h2 class="p-title">Hidalgo, <em>Mexico.</em></h2>
+            <p class="p-body">
+                Born and raised in Hidalgo, Mexico, I grew up surrounded by creativity built from limitation.
+                Resources were often scarce, teaching me to be imaginative with what I had and to value objects, materials, and systems made to last.
+            </p>
+            <p class="p-body">
+                Some of my earliest inspiration came from everyday life in Mexico: bold colors, repeating patterns, hand-painted storefront typography, and handmade ways of communicating. I was fascinated by how something created with very little could still feel powerful. That honesty in DIY visual communication still influences my work today.
+            </p>
+            <p class="p-body">
+                Moving to the United States gave me the opportunity to put language and structure to interests in design, visual communication, and technology I had been developing for years.
+            </p>
+            <p class="p-body">
+                Living between both experiences shaped my perspective. Mexico taught me creativity through limitation, intuition, and improvisation, while the U.S. gave me the tools and opportunities to combine hands-on craft with digital design and technology.
+            </p>
+            <p class="p-body">
+                Today, Oakland, California is home.
+            </p>
+        </div>
     </div>
 </div>
 
 <!-- Camera: Photography -->
-<div class="overlay" id="ov-camera">
-    <div class="panel">
-        <button class="close-btn" onclick="closeOverlay()">✕</button>
-        <p class="p-tag">Photography</p>
-        <h2 class="p-title">Seeing through <em>a lens.</em></h2>
-        <p class="p-body">
-            I picked up a point-and-shoot camera in high school and haven’t put it down since. 
-            Photography became another way for me to explore composition, perspective, and the way people experience a moment.
-        </p>
-        <p class="p-body">
-            I shoot both film and digital, but film especially taught me patience and intentionality. 
-            With only 36 exposures, every frame becomes deliberate, a moment frozen in time that can never be recreated in exactly the same way again.
-        </p>
-         <p class="p-body">
-            Photography continues to shape the way I see, notice, and frame the world around me.
-        </p>
+<div class="overlay" id="ov-camera" role="dialog" aria-modal="true" aria-label="Photography">
+    <div class="peg-frame">
+        <button class="close-btn peg-close" onclick="closeOverlay()">✕</button>
+        <div class="peg-content">
+            <p class="p-tag">Photography</p>
+            <h2 class="p-title">Seeing through <em>a lens.</em></h2>
+            <p class="p-body">
+                I picked up a point-and-shoot camera in high school and haven’t put it down since.
+                Photography became another way for me to explore composition, perspective, and the way people experience a moment.
+            </p>
+            <p class="p-body">
+                I shoot both film and digital, but film especially taught me patience and intentionality.
+                With only 36 exposures, every frame becomes deliberate, a moment frozen in time that can never be recreated in exactly the same way again.
+            </p>
+            <p class="p-body">
+                Photography continues to shape the way I see, notice, and frame the world around me.
+            </p>
+        </div>
     </div>
 </div>
 
 <!-- Archive Folder -->
-<div class="overlay" id="ov-archivefolder">
+<div class="overlay" id="ov-archivefolder" role="dialog" aria-modal="true" aria-label="Project archive">
     <div class="archive-scene">
         <div id="archive-cards"></div>
         <!-- folder SVG sits on top of cards — transparent bg lets floating cards show through, blue folder body hides cards still inside -->

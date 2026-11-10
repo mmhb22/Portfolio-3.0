@@ -23,84 +23,79 @@ function _veilDone() {
     }
 }
 
-// ── Cursor ────────────────────────────────────────────────────────────────────
-const cur  = document.getElementById('cur');
-const ring = document.getElementById('cur-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-
-gsap.set(cur,  { xPercent: -50, yPercent: -50 });
-gsap.set(ring, { xPercent: -50, yPercent: -50 });
-
-document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    gsap.set(cur, { x: mx, y: my });
-    tooltip.style.left = mx + 'px';
-    tooltip.style.top  = my + 'px';
-}, { passive: true });
-
-(function ringLoop() {
-    rx += (mx - rx) * .14;
-    ry += (my - ry) * .14;
-    gsap.set(ring, { x: rx, y: ry });
-    requestAnimationFrame(ringLoop);
-})();
-
-document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
-});
-
 // ── Tooltip ───────────────────────────────────────────────────────────────────
 const tooltip = document.getElementById('tooltip');
 function showTip(text) { tooltip.textContent = text; tooltip.classList.add('show'); }
 function hideTip()     { tooltip.classList.remove('show'); }
 
+document.addEventListener('mousemove', e => {
+    tooltip.style.left = e.clientX + 'px';
+    tooltip.style.top  = e.clientY + 'px';
+}, { passive: true });
+
 // ── Layer refs ────────────────────────────────────────────────────────────────
-const lottieEl = document.getElementById('lottie-hero');
-const svgCont  = document.getElementById('svg-container');
-const wHint    = document.querySelector('.workspace-hint');
-const heroFoot = document.querySelector('.hero-foot');
+const lottieEl  = document.getElementById('lottie-hero');
+const svgCont   = document.getElementById('svg-container');
+const wHint     = document.querySelector('.workspace-hint');
+const heroFoot  = document.querySelector('.hero-foot');
+const scrollBar = document.getElementById('scroll-bar');
+
+// On portrait mobile the 16:9 scene uses meet (letterbox) so it fits the width
+// without cropping. On desktop slice fills the screen edge-to-edge.
+const isMobile = window.matchMedia('(max-width: 767px)').matches;
+const sceneAR  = isMobile ? 'xMidYMid meet' : 'xMidYMid slice';
 
 // ── Lottie scroll scrub ───────────────────────────────────────────────────────
-// Designersintro.json: 281 frames, 29 fps, ~9.7 s
-const TOTAL_FRAMES = 281;
+// Designersintro-4.json: 482 frames, 29 fps
+const TOTAL_FRAMES = 482;
 
 const anim = lottie.loadAnimation({
     container: lottieEl,
     renderer: 'svg',
     loop: false,
     autoplay: false,
-    path: 'images/Designersintro.json',
-    rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
+    path: 'images/Designersintro-4.json',
+    rendererSettings: { preserveAspectRatio: sceneAR }
+});
+
+anim.addEventListener('data_failed', () => {
+    console.error('Lottie failed to load Designersintro-4.json');
 });
 
 anim.addEventListener('DOMLoaded', () => {
+    // Lottie may reset preserveAspectRatio after initial render — override here.
+    const lottieSvg = lottieEl.querySelector('svg');
+    if (lottieSvg) lottieSvg.setAttribute('preserveAspectRatio', sceneAR);
+
     anim.goToAndStop(0, true);
+
+    let _heroFootKilled = false;
 
     ScrollTrigger.create({
         trigger: '#hero',
         start: 'top top',
         end: '+=280%',
         pin: true,
-        scrub: 1.2,
+        scrub: 0.5,
         onUpdate: self => {
             anim.goToAndStop(Math.round(self.progress * TOTAL_FRAMES), true);
 
-            // Scroll cue fades out immediately as user begins scrolling
+            // Kill entrance tween once on first scroll tick — guards against it
+            // overriding the direct opacity assignment below.
+            if (!_heroFootKilled) { gsap.killTweensOf(heroFoot); _heroFootKilled = true; }
             heroFoot.style.opacity = Math.max(0, 1 - self.progress * 10);
 
-            if (self.progress > 0.75) {
-                const t = (self.progress - 0.75) / 0.25; // 0 → 1
+            // Crossfade starts at 88% (almost at final scene) and ends at 100%
+            if (self.progress > 0.88) {
+                const t = (self.progress - 0.88) / 0.12; // 0 → 1
 
-                // Lottie fades out — disable its pointer events so SVG becomes clickable
-                lottieEl.style.opacity       = 1 - t;
-                lottieEl.style.pointerEvents = t > 0.5 ? 'none' : 'auto';
-
-                // SVG workspace fades in — enable pointer events once visible
                 svgCont.style.opacity       = t;
                 svgCont.style.pointerEvents = t > 0.5 ? 'all' : 'none';
 
-                wHint.style.opacity = Math.max(0, (t - 0.5) / 0.5) * 0.45;
+                lottieEl.style.opacity       = 1 - Math.max(0, (t - 0.3) / 0.7);
+                lottieEl.style.pointerEvents = t > 0.5 ? 'none' : 'auto';
+
+                wHint.style.opacity = Math.max(0, (t - 0.7) / 0.3) * 0.45;
 
             } else {
                 lottieEl.style.opacity       = 1;
@@ -117,8 +112,7 @@ anim.addEventListener('DOMLoaded', () => {
         start: 'top top',
         end: 'bottom bottom',
         onUpdate: self => {
-            document.getElementById('scroll-bar').style.width =
-                (self.progress * 100) + '%';
+            scrollBar.style.transform = `scaleX(${self.progress})`;
         }
     });
 
@@ -128,9 +122,6 @@ anim.addEventListener('DOMLoaded', () => {
     if (savedY > 0) {
         window.scrollTo(0, savedY);
         ScrollTrigger.refresh();
-        // Kill any queued hero-foot tween so it can't override onUpdate's opacity.
-        gsap.killTweensOf(heroFoot);
-        gsap.set(heroFoot, { clearProps: 'opacity,y' });
     }
 
     // Restore open overlay — run after scroll settles so the scene is ready.
@@ -185,7 +176,7 @@ fetch('images/Designers_Workspace.svg')
 
         svg.removeAttribute('width');
         svg.removeAttribute('height');
-        svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svg.setAttribute('preserveAspectRatio', sceneAR);
         svg.style.width  = '100%';
         svg.style.height = '100%';
 
@@ -231,8 +222,8 @@ fetch('images/Designers_Workspace.svg')
 
             el.classList.add('ws-click');
             el.addEventListener('click',      ()  => openOverlay(overlay));
-            el.addEventListener('mouseenter', ()  => { document.body.classList.add('hov'); showTip(label); });
-            el.addEventListener('mouseleave', ()  => { document.body.classList.remove('hov'); hideTip(); });
+            el.addEventListener('mouseenter', ()  => showTip(label));
+            el.addEventListener('mouseleave', hideTip);
         });
     })
     .catch(err => {
@@ -245,36 +236,85 @@ fetch('images/Designers_Workspace.svg')
     });
 
 // ── Overlay system ────────────────────────────────────────────────────────────
-let activeId = null;
+let activeId   = null;
+let _lastFocus = null;
 const backdrop = document.getElementById('backdrop');
 
+backdrop.addEventListener('click', () => { if (activeId) _dismiss(); });
+document.addEventListener('keydown', e => {
+    const lb = document.getElementById('bc-photo-lb');
+    if (lb?.classList.contains('open')) {
+        if (e.key === 'Escape')     { window._closePhotoLb(); return; }
+        if (e.key === 'ArrowLeft')  { window._photoLbNav(-1); return; }
+        if (e.key === 'ArrowRight') { window._photoLbNav(1);  return; }
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const galleryScroll = document.getElementById('bc-gallery-scroll');
+        if (galleryScroll) {
+            e.preventDefault();
+            window._galleryArrow(e.key === 'ArrowLeft' ? -1 : 1);
+            return;
+        }
+    }
+    if (e.key === 'Escape' && activeId) _dismiss();
+});
+
 function _blockScroll(e) {
-    const scrollable = e.target.closest('.b-main, .panel, .b-sidebar');
+    const scrollable = e.target.closest('.b-main, .panel, .b-sidebar, .peg-content');
     if (!scrollable) e.preventDefault();
 }
 
+let _calendlyLoaded = false;
+function _loadCalendly() {
+    if (_calendlyLoaded || typeof Calendly !== 'undefined') { _calendlyLoaded = true; return; }
+    _calendlyLoaded = true;
+    const s = document.createElement('script');
+    s.src = 'https://assets.calendly.com/assets/external/widget.js';
+    s.onload = () => {
+        const w = document.querySelector('.calendly-inline-widget');
+        if (w && typeof Calendly !== 'undefined') Calendly.initInlineWidgets();
+    };
+    document.head.appendChild(s);
+}
+
+let _focusRafId = null;
+
 function openOverlay(id) {
     if (activeId) _dismiss(true);
+    if (id === 'ov-calendar') _loadCalendly();
 
     const el = document.getElementById(id);
     if (!el) return;
+    _lastFocus = document.activeElement;
     activeId = id;
     sessionStorage.setItem('overlayId', id);
 
-    // Kill any lingering tweens so stale callbacks can't touch pointer-events
+    // Kill every tween on both elements before starting new ones
     gsap.killTweensOf(el);
     gsap.killTweensOf(backdrop);
 
     backdrop.style.pointerEvents = 'all';
     el.style.pointerEvents       = 'all';
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow            = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     document.addEventListener('wheel', _blockScroll, { passive: false });
     document.addEventListener('touchmove', _blockScroll, { passive: false });
 
+    // Cancel any previous pending focus RAF so it doesn't land in a dismissed overlay
+    if (_focusRafId) { cancelAnimationFrame(_focusRafId); _focusRafId = null; }
+    _focusRafId = requestAnimationFrame(() => {
+        _focusRafId = null;
+        if (activeId !== id) return; // overlay was dismissed before RAF fired
+        const focusable = el.querySelector('button:not([disabled]), [href], input, [tabindex]:not([tabindex="-1"])');
+        if (focusable) focusable.focus();
+    });
+
     gsap.to(backdrop, { opacity: 1, duration: .3, ease: 'power2.out' });
+    // On mobile skip scale/y so fullscreen overlays don't scale the whole screen
     gsap.fromTo(el,
-        { opacity: 0, scale: .93, y: 24, xPercent: -50, yPercent: -50 },
-        { opacity: 1, scale: 1,   y: 0,  xPercent: -50, yPercent: -50, duration: .42, ease: 'back.out(1.6)',
+        { opacity: 0, scale: isMobile ? 1 : .93, y: isMobile ? 0 : 24, xPercent: -50, yPercent: -50 },
+        { opacity: 1, scale: 1,                   y: 0,                  xPercent: -50, yPercent: -50,
+          duration: isMobile ? .28 : .42, ease: isMobile ? 'power2.out' : 'back.out(1.6)',
           onComplete: () => { if (id === 'ov-archivefolder') _initArchive(); } }
     );
 }
@@ -283,7 +323,15 @@ function _dismiss(instant = false) {
     if (!activeId) return;
     const el = document.getElementById(activeId);
     const id = activeId;
-    const dur = instant ? 0 : .28;
+
+    // Kill any in-progress open/close tweens FIRST — without this, a
+    // fromTo open animation running on `el` fights the close tweens and
+    // leaves the element frozen at an intermediate state.
+    gsap.killTweensOf(el);
+    gsap.killTweensOf(backdrop);
+
+    // Cancel any pending focus RAF so it doesn't land inside a dismissed overlay
+    if (_focusRafId) { cancelAnimationFrame(_focusRafId); _focusRafId = null; }
 
     // Stop Spotify playback when headphones modal closes
     if (id === 'ov-headphones') {
@@ -293,23 +341,41 @@ function _dismiss(instant = false) {
 
     // Archive cards have pointer-events:all in CSS — clear them immediately so
     // they don't sit invisibly over the SVG workspace and swallow clicks.
+    // Kill their infinite floating tweens before removing, otherwise GSAP
+    // keeps animating detached DOM nodes.
     if (id === 'ov-archivefolder') {
         const cards = document.getElementById('archive-cards');
-        if (cards) cards.innerHTML = '';
+        if (cards) {
+            gsap.killTweensOf('.archive-card');
+            cards.innerHTML = '';
+        }
     }
 
     // Reset pointer-events synchronously — never rely on onComplete for this,
     // as interrupted animations leave the backdrop blocking all subsequent clicks.
     el.style.pointerEvents      = 'none';
     backdrop.style.pointerEvents = 'none';
-    document.body.style.overflow = '';
+    document.body.style.overflow            = '';
+    document.documentElement.style.overflow = '';
     document.removeEventListener('wheel', _blockScroll);
     document.removeEventListener('touchmove', _blockScroll);
     activeId = null;
     sessionStorage.removeItem('overlayId');
 
-    gsap.to(el, { opacity: 0, scale: .95, y: 14, xPercent: -50, yPercent: -50, duration: dur, ease: 'power2.in' });
-    gsap.to(backdrop, { opacity: 0, duration: dur });
+    // Return focus to whatever triggered the overlay
+    if (_lastFocus instanceof HTMLElement) {
+        try { _lastFocus.focus(); } catch (_) {}
+    }
+    _lastFocus = null;
+
+    if (instant) {
+        gsap.set(el,       { opacity: 0, scale: 1, y: 0, xPercent: -50, yPercent: -50 });
+        gsap.set(backdrop, { opacity: 0 });
+    } else {
+        gsap.to(el,       { opacity: 0, scale: isMobile ? 1 : .95, y: isMobile ? 0 : 14,
+                            xPercent: -50, yPercent: -50, duration: .28, ease: 'power2.in' });
+        gsap.to(backdrop, { opacity: 0, duration: .28 });
+    }
 }
 
 // Exposed globally so inline onclick="closeOverlay()" works
@@ -359,11 +425,13 @@ window.openBrowserProject = name => {
     _currentBrowserProject = name;
     _currentBrowserView    = 'project';
     document.querySelectorAll('.b-proj').forEach(b => b.classList.toggle('active', b.textContent.trim() === name));
-    document.querySelector('.b-main')?.scrollTo({ top: 0, behavior: 'instant' });
+    const _bMain = document.querySelector('.b-main');
+    if (_bMain) _bMain.scrollTop = 0;
     const sidebar = document.getElementById('b-sidebar');
     const openBtn = document.getElementById('b-sidebar-open');
-    if (sidebar) sidebar.classList.remove('closed');
-    if (openBtn) openBtn.style.display = 'none';
+    // On mobile start with sidebar closed so the project content has full width
+    if (sidebar) sidebar.classList.toggle('closed', isMobile);
+    if (openBtn) openBtn.style.display = isMobile ? 'flex' : 'none';
     _renderBrowserContent();
     _renderSidebarSections();
     _saveBrowserState();
@@ -460,6 +528,8 @@ function _parseContentMd(md) {
                 tag:      meta.tag      || '',
                 subtitle: meta.subtitle || '',
                 image:    meta.image    || null,
+                gallery:  meta.gallery  === 'true',
+                flipbook: meta.flipbook === 'true',
                 meta:     metaFields,
                 sections,
             };
@@ -479,7 +549,7 @@ function _renderSidebarSections() {
     const group = document.getElementById('b-sec-group');
     if (!group) return;
     const proj = (_ALL_PROJECTS[_currentBrowserTab] || {})[_currentBrowserProject];
-    if (!proj) { group.innerHTML = ''; return; }
+    if (!proj || proj.gallery || proj.flipbook) { group.innerHTML = ''; return; }
     const names = Object.keys(proj.sections);
     group.innerHTML = `<p class="b-group-label">Sections</p>` +
         names.map((n, i) => `<button class="b-sec${i === 0 ? ' active' : ''}" onclick="selectBrowserSection(this)">${n}</button>`).join('');
@@ -488,13 +558,23 @@ function _renderSidebarSections() {
 const _imgIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
 
 function _processImages(html) {
-    return html.replace(/<img([^>]*)>/g, (_, attrs) => {
+    const replaced = html.replace(/<img([^>]*)>/g, (_, attrs) => {
         const src = (attrs.match(/src="([^"]*)"/) || [])[1] || '';
         const alt = (attrs.match(/alt="([^"]*)"/) || [])[1] || '';
         if (!src || src === 'placeholder') {
             return `<div class="bc-img-ph">${_imgIcon}<span class="bc-img-ph-label">${alt || 'Image'}</span></div>`;
         }
         return `<img src="${src}" alt="${alt}" class="bc-img-real">`;
+    });
+    // Multiple images in one <p> (marked groups consecutive img lines together)
+    const grouped = replaced.replace(/<p>((?:\s*<img[^>]+>\s*(?:<br\s*\/?>)?\s*){2,})<\/p>/g, (_, content) => {
+        const imgs = content.match(/<img[^>]+>/g) || [];
+        return `<div class="bc-img-grid">${imgs.join('')}</div>`;
+    });
+    // Fallback: consecutive single-image <p> tags
+    return grouped.replace(/(<p><img[^>]+class="bc-img-real"[^>]*><\/p>\s*){2,}/g, match => {
+        const imgs = match.match(/<img[^>]+>/g) || [];
+        return `<div class="bc-img-grid">${imgs.join('')}</div>`;
     });
 }
 
@@ -504,8 +584,44 @@ function _renderBrowserContent() {
     const proj = (_ALL_PROJECTS[_currentBrowserTab] || {})[_currentBrowserProject];
     if (!proj) return;
     el.style.setProperty('--bc-color', proj.accent);
+    if (proj.gallery)  { _renderPhotoGallery(el, proj); return; }
+    document.querySelector('.b-main')?.classList.remove('gallery-active');
 
     const md = (typeof marked !== 'undefined') ? s => _processImages(marked.parse(s)) : s => `<p>${s}</p>`;
+
+    // For flipbook projects render sections normally but swap hero for the flipbook embed
+    if (proj.flipbook) {
+        const sectionNames = Object.keys(proj.sections).filter(n => n !== 'Pages');
+        const sectionsHTML = sectionNames.map((name, i) => `
+            <section id="bc-sec-${_secSlug(name)}" data-section="${name}" class="bc-section">
+                ${i > 0 ? `<h2 class="bc-section-heading">${name}</h2>` : ''}
+                <div class="bc-rendered">${md(proj.sections[name])}</div>
+            </section>
+            ${i < sectionNames.length - 1 ? '<div class="bc-divider"></div>' : ''}
+        `).join('');
+        el.innerHTML = `
+            <p class="bc-tag">${proj.tag}</p>
+            <h2 class="bc-title">${_currentBrowserProject}</h2>
+            <p class="bc-subtitle">${proj.subtitle}</p>
+            <div class="bc-flipbook-embed">
+                <div class="bc-flipbook-stage" id="bc-flipbook-stage">
+                    <div id="bc-flipbook"></div>
+                </div>
+            </div>
+            <div class="bc-meta-grid">${proj.meta.map(m => `
+                <div class="bc-meta-item">
+                    <p class="bc-meta-label">${m.label}</p>
+                    <p class="bc-meta-value">${m.value}</p>
+                    ${m.sublabel ? `<p class="bc-meta-label" style="margin-top:10px">${m.sublabel}</p><p class="bc-meta-value">${m.subvalue}</p>` : ''}
+                </div>`
+            ).join('')}</div>
+            <div class="bc-divider"></div>
+            ${sectionsHTML}
+        `;
+        _initFlipbookEmbed(proj);
+        return;
+    }
+
     const sectionNames = Object.keys(proj.sections);
     const sectionsHTML = sectionNames.map((name, i) => `
         <section id="bc-sec-${_secSlug(name)}" data-section="${name}" class="bc-section">
@@ -548,6 +664,7 @@ function _renderBrowserWorkGrid() {
     const el = document.getElementById('b-content');
     if (!el) return;
     el.style.removeProperty('--bc-color');
+    document.querySelector('.b-main')?.classList.remove('gallery-active');
     const tabProjects = _ALL_PROJECTS[_currentBrowserTab] || {};
     const entries = Object.entries(tabProjects);
 
@@ -582,6 +699,310 @@ function _renderBrowserWorkGrid() {
         </div>
     `;
 }
+
+// ── Flipbook embed ─────────────────────────────────────────────────────────────
+let _pageFlipInstance = null;
+
+function _initFlipbookEmbed(proj) {
+    // Parse page images from ### Pages section if present
+    const parseMd = (typeof marked !== 'undefined') ? s => marked.parse(s) : s => s;
+    const pagesMd = proj.sections['Pages'] || '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = parseMd(pagesMd);
+    const pageImgs = Array.from(tmp.querySelectorAll('img'));
+    const useImages = pageImgs.length > 0;
+
+    const container = document.getElementById('bc-flipbook');
+    if (!container) return;
+    container.innerHTML = useImages
+        ? pageImgs.map(img =>
+            `<div class="pf-page"><img src="${img.src}" alt="${img.alt}" style="width:100%;height:100%;display:block;"></div>`
+          ).join('')
+        : _flipbookPlaceholderPages();
+
+    const initWithRatio = (ratio) => {
+        const stage = document.getElementById('bc-flipbook-stage');
+        if (!stage || !container) return;
+        const w = Math.min(Math.floor(stage.clientWidth / 2) - 16, 300);
+        const h = Math.round(w * ratio);
+        stage.style.height = (h + 24) + 'px';
+        if (_pageFlipInstance) { try { _pageFlipInstance.destroy(); } catch(e) {} _pageFlipInstance = null; }
+        _pageFlipInstance = new St.PageFlip(container, {
+            width: w, height: h,
+            showCover: true,
+            flippingTime: 700,
+            drawShadow: true,
+            usePortrait: false,
+            mobileScrollSupport: true,
+            swipeDistance: 30,
+        });
+        _pageFlipInstance.loadFromHTML(container.querySelectorAll('.pf-page'));
+    };
+
+    const doInit = () => {
+        if (useImages) {
+            const firstImg = container.querySelector('.pf-page img');
+            if (firstImg?.naturalWidth > 0) {
+                initWithRatio(firstImg.naturalHeight / firstImg.naturalWidth);
+            } else if (firstImg) {
+                firstImg.onload = () => initWithRatio(firstImg.naturalHeight / firstImg.naturalWidth);
+            } else {
+                initWithRatio(1.41);
+            }
+        } else {
+            initWithRatio(1.41);
+        }
+    };
+
+    const src = 'https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js';
+    if (window.St?.PageFlip) { doInit(); }
+    else {
+        const s = document.createElement('script');
+        s.src = src; s.onload = doInit;
+        document.head.appendChild(s);
+    }
+}
+
+function _flipbookPlaceholderPages() {
+    const bg = `background:linear-gradient(160deg,#1c1208 0%,#3a1a06 100%)`;
+    const cream = `background:#f8f1e8`;
+    const white = `background:#ffffff`;
+    const gold = `#c47a35`;
+    const dark = `#2a1a08`;
+    const body = `font-family:Georgia,serif`;
+    const muted = `color:#6a5040;font-family:Georgia,serif;line-height:1.55;font-size:8px`;
+
+    const page = (bg, inner) =>
+        `<div class="pf-page" style="overflow:hidden;box-sizing:border-box;">
+            <div style="width:100%;height:100%;${bg};padding:28px 24px;box-sizing:border-box;display:flex;flex-direction:column;position:relative;">
+                ${inner}
+            </div>
+        </div>`;
+
+    const heading = (label, marginBottom='16px') =>
+        `<div style="font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:${gold};margin-bottom:6px;${body}">${label}</div>
+         <div style="width:28px;height:1px;background:${gold};margin-bottom:${marginBottom};"></div>`;
+
+    const pages = [
+        // 1 — Cover
+        page(bg, `
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+                <div style="letter-spacing:.35em;font-size:9px;text-transform:uppercase;color:${gold};${body};margin-bottom:6px;">Clearlight</div>
+                <div style="font-size:18px;font-weight:300;color:#f0e6d6;letter-spacing:.07em;${body};margin-bottom:2px;">Infrared Sauna</div>
+                <div style="font-size:10px;color:rgba(240,230,214,.45);letter-spacing:.12em;${body};margin-bottom:18px;">Sanctuary Series</div>
+                <div style="width:40px;height:1px;background:${gold};margin-bottom:18px;"></div>
+                <svg width="44" height="44" viewBox="0 0 44 44" fill="none" style="margin-bottom:18px;">
+                    <circle cx="22" cy="22" r="21" stroke="${gold}" stroke-width="1" fill="none"/>
+                    <path d="M22 11 C22 11 16 17 16 22 C16 28 18 32 22 34 C26 32 28 28 28 22 C28 17 22 11 22 11Z" stroke="${gold}" stroke-width="1.1" fill="none"/>
+                    <path d="M16 19 C14 21 14 24 15 26" stroke="${gold}" stroke-width=".9" stroke-linecap="round"/>
+                    <path d="M28 19 C30 21 30 24 29 26" stroke="${gold}" stroke-width=".9" stroke-linecap="round"/>
+                </svg>
+                <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,230,214,.3);${body};">Owner's Manual</div>
+            </div>
+            <div style="text-align:center;font-size:7px;color:rgba(240,230,214,.18);${body};letter-spacing:.08em;">CL-SAUNA-2P · REV 2026</div>`),
+
+        // 2 — Welcome
+        page(cream, `
+            <div style="width:100%;height:3px;background:linear-gradient(90deg,${gold},transparent);margin-bottom:20px;flex-shrink:0;border-radius:2px;"></div>
+            ${heading('Welcome', '12px')}
+            <div style="font-size:15px;font-weight:normal;color:${dark};${body};line-height:1.3;margin-bottom:12px;">Thank you for choosing Clearlight.</div>
+            <p style="${muted};margin-bottom:10px;">Your Clearlight Infrared Sauna has been crafted to deliver a genuine wellness experience — combining the therapeutic benefits of true infrared heat with thoughtful, lasting design.</p>
+            <p style="${muted};margin-bottom:16px;">Please read this manual carefully before first use. Following these instructions will help you get the most from your sauna and ensure years of safe, restorative sessions.</p>
+            <div style="border-left:2px solid ${gold};padding-left:10px;">
+                <div style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:${gold};margin-bottom:7px;${body};">What's included</div>
+                ${['Sauna cabin & panels','True Wave™ carbon heaters','Chromotherapy lighting','Audio system & remote','Power supply cable','This owner\'s manual'].map(i=>`<div style="${muted};padding:2px 0;">· ${i}</div>`).join('')}
+            </div>
+            <div style="position:absolute;bottom:16px;right:16px;font-size:7px;color:rgba(90,58,32,.3);${body};">clearlight.com</div>`),
+
+        // 3 — Contents
+        page(white, `
+            ${heading('Contents')}
+            ${[['01','Safety Information','4'],['02','Quick Start Guide','6'],['03','Infrared Technology','10'],['04','Chromotherapy','12'],['05','Audio & Controls','14'],['06','Clearlight App','16'],['07','Care & Maintenance','18'],['08','Troubleshooting','20']].map(([n,t,p])=>`
+                <div style="display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0e8dc;">
+                    <div style="display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-size:7px;color:${gold};${body};letter-spacing:.08em;">${n}</span>
+                        <span style="font-size:8.5px;color:${dark};${body};">${t}</span>
+                    </div>
+                    <span style="font-size:7.5px;color:#9a7a5a;${body};">${p}</span>
+                </div>`).join('')}`),
+
+        // 4 — Safety
+        page(white, `
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">
+                <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1L11 10H1L6 1Z" stroke="#c0392b" stroke-width="1.1" fill="none"/><line x1="6" y1="4.5" x2="6" y2="7.5" stroke="#c0392b" stroke-width="1" stroke-linecap="round"/><circle cx="6" cy="9" r=".65" fill="#c0392b"/></svg>
+                <div style="font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#c0392b;${body};">Safety</div>
+            </div>
+            <div style="width:100%;height:1px;background:#f0e8dc;margin-bottom:12px;"></div>
+            ${[['Consult physician','Consult a doctor before use if you have cardiovascular conditions, are pregnant, or take medications.'],['Hydration','Drink water before and after each session. Avoid alcohol during use.'],['Session limits','Begin with 15–20 min sessions. Do not exceed 45 minutes.'],['Children','Always supervise children. Elderly users should limit session duration.'],['Exit if unwell','Exit immediately if you feel dizzy, nauseous, or unwell.'],['Keep dry','Keep liquids away from heaters. No electrical devices inside.']].map(([t,d])=>`
+                <div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;">
+                    <div style="width:4px;height:4px;background:${gold};border-radius:50%;flex-shrink:0;margin-top:4px;"></div>
+                    <div>
+                        <div style="font-size:8px;font-weight:bold;color:${dark};${body};margin-bottom:1px;">${t}</div>
+                        <div style="${muted};">${d}</div>
+                    </div>
+                </div>`).join('')}`),
+
+        // 5 — Quick Start
+        page(cream, `
+            ${heading('Quick Start')}
+            ${[['01','Position & Assemble','Place on a level, dry surface with 6 inches clearance on all sides.'],['02','Power Connection','Plug into a dedicated 120V / 20A circuit. Do not use extension cords.'],['03','Preheat','Set to 120–130°F. Allow 20–30 minutes to preheat before entering.'],['04','First Session','Start with 15 minutes at low temperature. Increase gradually.']].map(([n,t,d])=>`
+                <div style="display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;">
+                    <div style="width:20px;height:20px;border:1px solid ${gold};border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <span style="font-size:7px;color:${gold};${body};">${n}</span>
+                    </div>
+                    <div>
+                        <div style="font-size:8.5px;font-weight:bold;color:${dark};${body};margin-bottom:2px;">${t}</div>
+                        <div style="${muted};">${d}</div>
+                    </div>
+                </div>`).join('')}
+            <div style="background:${dark};border-radius:5px;padding:9px 12px;margin-top:auto;">
+                <div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:${gold};margin-bottom:5px;${body};">Recommended first session</div>
+                <div style="display:flex;justify-content:space-between;">
+                    ${[['120°F','Temp'],['15 min','Duration'],['Low','Level']].map(([v,l])=>`<div style="text-align:center;"><div style="font-size:13px;color:#f0e6d6;${body};">${v}</div><div style="font-size:6.5px;color:rgba(240,230,214,.4);${body};margin-top:1px;">${l}</div></div>`).join('')}
+                </div>
+            </div>`),
+
+        // 6 — Features
+        page(white, `
+            ${heading('Features')}
+            ${[['True Wave™ Infrared','Full-spectrum carbon heaters deliver far, mid, and near infrared for deep tissue penetration with ultra-low EMF.'],['Chromotherapy','7-colour LED therapy system. Each colour targets different therapeutic and mood benefits.'],['Bluetooth Audio','Built-in speakers support any Bluetooth device. Manage playback from the panel or your phone.'],['Clearlight App','Control temperature, session timer, chromotherapy, and audio from the Clearlight mobile app.']].map(([t,d])=>`
+                <div style="margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid #f0e8dc;">
+                    <div style="font-size:8.5px;font-weight:bold;color:${dark};${body};margin-bottom:2px;">${t}</div>
+                    <div style="${muted};">${d}</div>
+                </div>`).join('')}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:auto;">
+                ${[['−8mG','Ultra Low EMF'],['360°','IR Coverage'],['7','Colour Therapy'],['20yr','Heater Life']].map(([v,l])=>`<div style="background:#f8f1e8;border-radius:4px;padding:7px;text-align:center;"><div style="font-size:13px;color:${gold};${body};">${v}</div><div style="font-size:6.5px;color:#9a7a5a;${body};margin-top:2px;">${l}</div></div>`).join('')}
+            </div>`),
+
+        // 7 — Care
+        page(cream, `
+            ${heading('Care & Maintenance')}
+            <div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9a7a5a;margin-bottom:7px;${body};">Cleaning schedule</div>
+            ${[['After each use','Wipe benches and floor with a dry towel. Leave door open 30 min.'],['Weekly','Wipe wood with a barely damp cloth. No soaps or chemicals on cedar.'],['Monthly','Inspect heater connections. Vacuum dust from vents.'],['Yearly','Sand bench surfaces with fine-grit paper. Inspect door seals.']].map(([f,d])=>`
+                <div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;">
+                    <div style="background:${gold};border-radius:2px;padding:2px 5px;flex-shrink:0;"><span style="font-size:6.5px;color:#fff;${body};">${f}</span></div>
+                    <div style="${muted};">${d}</div>
+                </div>`).join('')}
+            <div style="margin-top:12px;border-top:1px solid rgba(196,122,53,.2);padding-top:10px;">
+                <div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9a7a5a;margin-bottom:6px;${body};">Do not use</div>
+                ${['Bleach or harsh chemicals','Pressure washers or steam cleaners','Oils or waxes near heaters'].map(i=>`<div style="${muted};color:#c0392b;padding:2px 0;">✕ ${i}</div>`).join('')}
+            </div>`),
+
+        // 8 — Back Cover
+        page(bg, `
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+                <div style="letter-spacing:.35em;font-size:9px;text-transform:uppercase;color:${gold};${body};margin-bottom:20px;">Clearlight</div>
+                <div style="width:36px;height:1px;background:rgba(196,122,53,.3);margin-bottom:20px;"></div>
+                <div style="font-size:8px;color:rgba(240,230,214,.35);${body};line-height:2.2;letter-spacing:.05em;">clearlight.com<br>support@clearlight.com<br>1-800-CLEARLT</div>
+            </div>
+            <div style="text-align:center;font-size:7px;color:rgba(240,230,214,.15);${body};letter-spacing:.08em;">&copy; 2026 Clearlight Infrared. All rights reserved.</div>`),
+    ];
+    return pages.join('');
+}
+
+
+// ── Photo gallery renderer ────────────────────────────────────────────────────
+function _renderPhotoGallery(el, proj) {
+    document.querySelector('.b-main')?.classList.add('gallery-active');
+
+    const md = (typeof marked !== 'undefined') ? s => marked.parse(s) : s => s;
+    const galleryMd = proj.sections['Gallery'] || '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = md(galleryMd);
+    const imgs = Array.from(tmp.querySelectorAll('img'));
+
+    if (imgs.length === 0) {
+        el.innerHTML = `
+            <div class="bc-coming-soon">
+                <p class="bc-coming-soon-eyebrow">${_currentBrowserProject}</p>
+                <h2 class="bc-coming-soon-title">Coming<br>Soon</h2>
+                <p class="bc-coming-soon-body">Photos landing here soon.</p>
+            </div>`;
+        return;
+    }
+
+    el.innerHTML = `
+        <div class="bc-gallery-wrap">
+            <div class="bc-gallery-header">
+                <p class="bc-tag">${proj.tag}</p>
+                <h2 class="bc-title" style="margin-bottom:0">${_currentBrowserProject}</h2>
+            </div>
+            <div class="bc-gallery-main">
+                <button class="bc-gallery-arrow bc-gallery-arrow-l" onclick="window._galleryArrow(-1)">&#8592;</button>
+                <div class="bc-gallery-scroll" id="bc-gallery-scroll">
+                    ${imgs.map((img, i) => `
+                        <div class="bc-gallery-photo" id="bc-gphoto-${i}" data-idx="${i}">
+                            <img src="${img.src}" alt="${img.alt}" loading="${i < 2 ? 'eager' : 'lazy'}">
+                        </div>`
+                    ).join('')}
+                </div>
+                <button class="bc-gallery-arrow bc-gallery-arrow-r" onclick="window._galleryArrow(1)">&#8594;</button>
+            </div>
+            <div class="bc-gallery-strip" id="bc-gallery-strip">
+                ${imgs.map((img, i) => `
+                    <button class="bc-thumb${i === 0 ? ' active' : ''}" data-idx="${i}" onclick="window._jumpToPhoto(${i})">
+                        <img src="${img.src}" alt="${img.alt}" loading="lazy">
+                    </button>`
+                ).join('')}
+            </div>
+        </div>`;
+
+    // Sync active thumbnail as user scrolls horizontally
+    const scroll = document.getElementById('bc-gallery-scroll');
+    if (scroll) {
+        scroll.addEventListener('scroll', _syncGalleryThumb, { passive: true });
+    }
+}
+
+function _syncGalleryThumb() {
+    const scroll = document.getElementById('bc-gallery-scroll');
+    if (!scroll) return;
+    const center = scroll.scrollLeft + scroll.clientWidth / 2;
+    let closest = 0, minDist = Infinity;
+    document.querySelectorAll('#bc-gallery-scroll .bc-gallery-photo').forEach((photo, i) => {
+        const dist = Math.abs((photo.offsetLeft + photo.offsetWidth / 2) - center);
+        if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    document.querySelectorAll('#bc-gallery-strip .bc-thumb').forEach((t, i) => {
+        t.classList.toggle('active', i === closest);
+    });
+    document.querySelector(`#bc-gallery-strip .bc-thumb[data-idx="${closest}"]`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+window._galleryArrow = dir => {
+    const scroll = document.getElementById('bc-gallery-scroll');
+    if (!scroll) return;
+    // Find the photo closest to centre, jump to next/prev
+    const center = scroll.scrollLeft + scroll.clientWidth / 2;
+    const photos  = Array.from(document.querySelectorAll('#bc-gallery-scroll .bc-gallery-photo'));
+    let closest = 0, minDist = Infinity;
+    photos.forEach((p, i) => {
+        const dist = Math.abs((p.offsetLeft + p.offsetWidth / 2) - center);
+        if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    const target = photos[Math.max(0, Math.min(photos.length - 1, closest + dir))];
+    if (target) scroll.scrollTo({ left: target.offsetLeft - 56, behavior: 'smooth' });
+};
+
+window._jumpToPhoto = idx => {
+    const photo  = document.getElementById(`bc-gphoto-${idx}`);
+    const scroll = document.getElementById('bc-gallery-scroll');
+    if (photo && scroll) scroll.scrollTo({ left: photo.offsetLeft - 56, behavior: 'smooth' });
+    document.querySelectorAll('#bc-gallery-strip .bc-thumb')
+        .forEach((t, i) => t.classList.toggle('active', i === idx));
+};
+
+window._closePhotoLb = () => {
+    document.getElementById('bc-photo-lb')?.classList.remove('open');
+};
+
+window._photoLbNav = _dir => {};
+
+// Close lightbox on backdrop click
+document.getElementById('bc-photo-lb')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) window._closePhotoLb();
+});
 
 // Fetch content.md, parse it, then initialise the browser modal
 fetch('content.md')
@@ -632,9 +1053,6 @@ fetch('content.md')
         if (el) el.innerHTML = '<p class="bc-body" style="opacity:.4; padding:40px;">Open via a local server to load content.md</p>';
         _veilDone();
     });
-
-backdrop.addEventListener('click', () => _dismiss());
-document.addEventListener('keydown', e => { if (e.key === 'Escape') _dismiss(); });
 
 // Archive lightbox — click the dark backdrop area (anywhere outside the card) to close
 document.getElementById('archive-lb').addEventListener('click', e => {
@@ -789,6 +1207,9 @@ function _initArchive() {
         card.addEventListener('pointerup', () => {
             card.style.zIndex = '';
             gsap.to(card, { scale: 1, duration: .16, ease: 'power2.out' });
+            // Kill existing float tweens before restarting to avoid stacking
+            // infinite tweens on every drag release.
+            gsap.killTweensOf(card, 'y,rotation');
             _startFloat(card);
             if (!moved) _openArchiveLightbox(item);
         });
