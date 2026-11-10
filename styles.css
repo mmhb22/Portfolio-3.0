@@ -821,6 +821,12 @@ button.b-dot {
     #lottie-hero,
     #svg-container { background: var(--workspace-bg); }
 
+    /* Scale Lottie up so the landscape scene fills most of the portrait screen */
+    #lottie-hero svg {
+        transform: scale(1.6);
+        transform-origin: center center;
+    }
+
     /* Workspace hint: ensure it's readable over the teal bar */
     .workspace-hint { color: #1a3d42; }
 

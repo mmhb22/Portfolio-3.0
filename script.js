@@ -42,7 +42,7 @@ const scrollBar = document.getElementById('scroll-bar');
 
 // On portrait mobile the 16:9 scene uses meet (letterbox) so it fits the width
 const isMobile = window.matchMedia('(max-width: 767px)').matches;
-const sceneAR  = 'xMidYMid slice';
+const sceneAR  = isMobile ? 'xMidYMid meet' : 'xMidYMid slice';
 
 // ── Lottie scroll scrub ───────────────────────────────────────────────────────
 // Designersintro-4.json: 482 frames, 29 fps
