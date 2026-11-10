@@ -816,7 +816,8 @@ button.b-dot {
 
 /* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 767px) {
-    /* Scene containers: teal background so the letterbox bars match the scene */
+    /* Hero and all scene layers: full teal on mobile */
+    #hero,
     #lottie-hero,
     #svg-container { background: var(--workspace-bg); }
 
@@ -907,4 +908,7 @@ button.b-dot {
 
     /* Scroll cue: smaller on mobile */
     .hero-foot { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+
+    /* Teal everywhere on mobile — no cream/white showing through overscroll or gaps */
+    html, body { background: var(--workspace-bg); }
 }
