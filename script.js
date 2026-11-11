@@ -84,6 +84,9 @@ anim.addEventListener('DOMLoaded', () => {
             if (!_heroFootKilled) { gsap.killTweensOf(heroFoot); _heroFootKilled = true; }
             heroFoot.style.opacity = Math.max(0, 1 - self.progress * 10);
 
+            // Kick off SVG load at 50% — gives 38% of scroll travel to download
+            if (self.progress > 0.5) _loadWorkspaceSVG();
+
             // Crossfade starts at 88% (almost at final scene) and ends at 100%
             if (self.progress > 0.88) {
                 const t = (self.progress - 0.88) / 0.12; // 0 → 1
@@ -121,6 +124,10 @@ anim.addEventListener('DOMLoaded', () => {
     if (savedY > 0) {
         window.scrollTo(0, savedY);
         ScrollTrigger.refresh();
+        // If restoring to a scroll position past 50%, load SVG immediately
+        const heroH = document.getElementById('hero')?.offsetHeight || window.innerHeight;
+        const totalH = heroH * (isMobile ? 1.8 : 2.8);
+        if (savedY / totalH > 0.5) _loadWorkspaceSVG();
     }
 
     // Restore open overlay — run after scroll settles so the scene is ready.
@@ -167,72 +174,75 @@ if (location.protocol === 'file:') {
         </div>`;
 }
 
-fetch('images/Designers_Workspace.svg')
-    .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
-    .then(svgText => {
-        svgCont.innerHTML = svgText;
-        const svg = svgCont.querySelector('svg');
+// Lazy-load the 40MB workspace SVG only when user scrolls past 50% —
+// it becomes visible at 88% so this gives plenty of load time without
+// penalising the initial page load / LCP.
+let _svgFetched = false;
+function _loadWorkspaceSVG() {
+    if (_svgFetched) return;
+    _svgFetched = true;
+    fetch('images/Designers_Workspace.svg')
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then(svgText => {
+            svgCont.innerHTML = svgText;
+            const svg = svgCont.querySelector('svg');
 
-        svg.removeAttribute('width');
-        svg.removeAttribute('height');
-        svg.setAttribute('preserveAspectRatio', sceneAR);
-        svg.style.width  = '100%';
-        svg.style.height = '100%';
+            svg.removeAttribute('width');
+            svg.removeAttribute('height');
+            svg.setAttribute('preserveAspectRatio', sceneAR);
+            svg.style.width  = '100%';
+            svg.style.height = '100%';
 
-        // Inject defs: hover filter + SVG-scoped CSS
-        let defs = svg.querySelector('defs');
-        if (!defs) {
-            defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-            svg.insertBefore(defs, svg.firstChild);
-        }
+            // Inject defs: hover filter + SVG-scoped CSS
+            let defs = svg.querySelector('defs');
+            if (!defs) {
+                defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                svg.insertBefore(defs, svg.firstChild);
+            }
 
-        // White-tint filter for hover
-        const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
-        filter.setAttribute('id', 'hov-white');
-        filter.innerHTML = `
-            <feColorMatrix type="matrix"
-                values="1 0 0 0 0.18
-                        0 1 0 0 0.18
-                        0 0 1 0 0.18
-                        0 0 0 1 0"/>`;
-        defs.appendChild(filter);
+            // White-tint filter for hover
+            const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+            filter.setAttribute('id', 'hov-white');
+            filter.innerHTML = `
+                <feColorMatrix type="matrix"
+                    values="1 0 0 0 0.18
+                            0 1 0 0 0.18
+                            0 0 1 0 0.18
+                            0 0 0 1 0"/>`;
+            defs.appendChild(filter);
 
-        // CSS scoped inside the SVG
-        const svgStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-        svgStyle.textContent = `
-            .ws-click { cursor: pointer; transition: filter .25s ease; }
-            .ws-click:hover { filter: url(#hov-white); }
+            // CSS scoped inside the SVG
+            const svgStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+            svgStyle.textContent = `
+                .ws-click { cursor: pointer; transition: filter .25s ease; }
+                .ws-click:hover { filter: url(#hov-white); }
 
-            /* Built-in illustrator hover groups */
-            #Walnut #Hover,
-            #Calendar #Hover-3    { opacity: 0; transition: opacity .25s; }
-            #Walnut:hover #Hover,
-            #Calendar:hover #Hover-3 { opacity: 1; }
+                /* Built-in illustrator hover groups */
+                #Walnut #Hover,
+                #Calendar #Hover-3    { opacity: 0; transition: opacity .25s; }
+                #Walnut:hover #Hover,
+                #Calendar:hover #Hover-3 { opacity: 1; }
 
-            #Hover-2 { opacity: 0; transition: opacity .28s; }
-            #Designer:hover #Hover-2 { opacity: .32; }
-        `;
-        defs.appendChild(svgStyle);
+                #Hover-2 { opacity: 0; transition: opacity .28s; }
+                #Designer:hover #Hover-2 { opacity: .32; }
+            `;
+            defs.appendChild(svgStyle);
 
-        // Wire up click + hover for each interactive element
-        Object.entries(SVG_MAP).forEach(([id, { overlay, label }]) => {
-            const el = document.getElementById(id);
-            if (!el) return;
+            // Wire up click + hover for each interactive element
+            Object.entries(SVG_MAP).forEach(([id, { overlay, label }]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
 
-            el.classList.add('ws-click');
-            el.addEventListener('click',      ()  => openOverlay(overlay));
-            el.addEventListener('mouseenter', ()  => showTip(label));
-            el.addEventListener('mouseleave', hideTip);
+                el.classList.add('ws-click');
+                el.addEventListener('click',      ()  => openOverlay(overlay));
+                el.addEventListener('mouseenter', ()  => showTip(label));
+                el.addEventListener('mouseleave', hideTip);
+            });
+        })
+        .catch(err => {
+            console.error('SVG load error:', err);
         });
-    })
-    .catch(err => {
-        console.error('SVG load error:', err);
-        svgCont.innerHTML = `
-            <p style="text-align:center;padding:80px;opacity:.35;font-family:var(--font-d);font-size:22px;font-style:italic;">
-                Workspace needs a local server.<br>
-                <small style="font-family:var(--font-b);font-size:14px;">python3 -m http.server 3000</small>
-            </p>`;
-    });
+}
 
 // ── Overlay system ────────────────────────────────────────────────────────────
 let activeId   = null;
