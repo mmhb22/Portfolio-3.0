@@ -24,8 +24,7 @@ button:focus-visible { outline: none; }
     --workspace-bg: #8bc7d0;
     --archive-bg:   #ff8271;
 
-    /* Typography — both point to Inter; swap --font-d for a display face if desired */
-    --font:   'Inter', sans-serif;
+    /* Typography — swap --font-d for a display face if desired */
     --font-d: 'Inter', sans-serif;
     --font-b: 'Inter', sans-serif;
 }
