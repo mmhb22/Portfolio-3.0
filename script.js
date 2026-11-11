@@ -942,10 +942,11 @@ function _renderPhotoGallery(el, proj) {
                 <button class="bc-gallery-arrow bc-gallery-arrow-l" onclick="window._galleryArrow(-1)">&#8592;</button>
                 <div class="bc-gallery-scroll" id="bc-gallery-scroll">
                     ${imgs.map((img, i) => `
-                        <div class="bc-gallery-photo" id="bc-gphoto-${i}" data-idx="${i}">
+                        <div class="bc-gallery-photo${i === 0 ? ' active' : ''}" id="bc-gphoto-${i}" data-idx="${i}">
                             <img src="${img.src}" alt="${img.alt}" loading="${i < 2 ? 'eager' : 'lazy'}">
                         </div>`
                     ).join('')}
+                    <div class="bc-gallery-counter" id="bc-gallery-counter">1 / ${imgs.length}</div>
                 </div>
                 <button class="bc-gallery-arrow bc-gallery-arrow-r" onclick="window._galleryArrow(1)">&#8594;</button>
             </div>
@@ -957,51 +958,24 @@ function _renderPhotoGallery(el, proj) {
                 ).join('')}
             </div>
         </div>`;
-
-    // Sync active thumbnail as user scrolls horizontally
-    const scroll = document.getElementById('bc-gallery-scroll');
-    if (scroll) {
-        scroll.addEventListener('scroll', _syncGalleryThumb, { passive: true });
-    }
 }
-
-function _syncGalleryThumb() {
-    const scroll = document.getElementById('bc-gallery-scroll');
-    if (!scroll) return;
-    const center = scroll.scrollLeft + scroll.clientWidth / 2;
-    let closest = 0, minDist = Infinity;
-    document.querySelectorAll('#bc-gallery-scroll .bc-gallery-photo').forEach((photo, i) => {
-        const dist = Math.abs((photo.offsetLeft + photo.offsetWidth / 2) - center);
-        if (dist < minDist) { minDist = dist; closest = i; }
-    });
-    document.querySelectorAll('#bc-gallery-strip .bc-thumb').forEach((t, i) => {
-        t.classList.toggle('active', i === closest);
-    });
-    document.querySelector(`#bc-gallery-strip .bc-thumb[data-idx="${closest}"]`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-}
-
-window._galleryArrow = dir => {
-    const scroll = document.getElementById('bc-gallery-scroll');
-    if (!scroll) return;
-    // Find the photo closest to centre, jump to next/prev
-    const center = scroll.scrollLeft + scroll.clientWidth / 2;
-    const photos  = Array.from(document.querySelectorAll('#bc-gallery-scroll .bc-gallery-photo'));
-    let closest = 0, minDist = Infinity;
-    photos.forEach((p, i) => {
-        const dist = Math.abs((p.offsetLeft + p.offsetWidth / 2) - center);
-        if (dist < minDist) { minDist = dist; closest = i; }
-    });
-    const target = photos[Math.max(0, Math.min(photos.length - 1, closest + dir))];
-    if (target) scroll.scrollTo({ left: target.offsetLeft - 56, behavior: 'smooth' });
-};
 
 window._jumpToPhoto = idx => {
-    const photo  = document.getElementById(`bc-gphoto-${idx}`);
-    const scroll = document.getElementById('bc-gallery-scroll');
-    if (photo && scroll) scroll.scrollTo({ left: photo.offsetLeft - 56, behavior: 'smooth' });
-    document.querySelectorAll('#bc-gallery-strip .bc-thumb')
-        .forEach((t, i) => t.classList.toggle('active', i === idx));
+    const photos = document.querySelectorAll('#bc-gallery-scroll .bc-gallery-photo');
+    const thumbs = document.querySelectorAll('#bc-gallery-strip .bc-thumb');
+    photos.forEach((p, i) => p.classList.toggle('active', i === idx));
+    thumbs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    document.querySelector(`#bc-gallery-strip .bc-thumb[data-idx="${idx}"]`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    const counter = document.getElementById('bc-gallery-counter');
+    if (counter) counter.textContent = `${idx + 1} / ${photos.length}`;
+};
+
+window._galleryArrow = dir => {
+    const photos = Array.from(document.querySelectorAll('#bc-gallery-scroll .bc-gallery-photo'));
+    const current = photos.findIndex(p => p.classList.contains('active'));
+    const next = Math.max(0, Math.min(photos.length - 1, current + dir));
+    window._jumpToPhoto(next);
 };
 
 window._closePhotoLb = () => {
