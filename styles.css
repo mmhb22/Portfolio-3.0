@@ -475,19 +475,22 @@ button.b-dot {
     width: 100%; height: 100%;
     overflow-x: auto; overflow-y: hidden;
     display: flex; align-items: center;
-    gap: 8px; padding: 12px 56px; /* side padding clears arrow buttons */
+    gap: 8px; padding: 0 56px; /* vertical padding removed to prevent top/bottom crop */
     scrollbar-width: none;
     scroll-behavior: smooth;
+    box-sizing: border-box;
 }
 .bc-gallery-scroll::-webkit-scrollbar { display: none; }
 .bc-gallery-photo {
     height: 100%; flex-shrink: 0;
     border-radius: 8px; overflow: hidden;
     cursor: default;
+    display: flex; align-items: center;
 }
 .bc-gallery-photo img {
     height: 100%; width: auto;
     display: block; max-width: none;
+    object-fit: contain;
 }
 .bc-gallery-arrow {
     position: absolute; top: 50%; transform: translateY(-50%);
