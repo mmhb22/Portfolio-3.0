@@ -91,6 +91,7 @@ anim.addEventListener('DOMLoaded', () => {
             if (self.progress > 0.88) {
                 const t = (self.progress - 0.88) / 0.12; // 0 → 1
 
+                svgCont.style.visibility    = 'visible';
                 svgCont.style.opacity       = t;
                 svgCont.style.pointerEvents = t > 0.5 ? 'all' : 'none';
 
@@ -102,6 +103,7 @@ anim.addEventListener('DOMLoaded', () => {
             } else {
                 lottieEl.style.opacity       = 1;
                 lottieEl.style.pointerEvents = 'auto';
+                svgCont.style.visibility    = 'hidden';
                 svgCont.style.opacity        = 0;
                 svgCont.style.pointerEvents  = 'none';
                 wHint.style.opacity          = 0;
