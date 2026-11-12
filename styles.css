@@ -161,6 +161,7 @@ button.b-dot {
     max-height: 88vh; overflow-y: auto; overscroll-behavior: contain;
     color: var(--bg);
 }
+.panel { scrollbar-width: thin; scrollbar-color: rgba(244,239,230,.18) transparent; }
 .panel::-webkit-scrollbar       { width: 4px; }
 .panel::-webkit-scrollbar-track { background: transparent; }
 .panel::-webkit-scrollbar-thumb { background: rgba(244,239,230,.18); border-radius: 2px; }
@@ -313,6 +314,7 @@ button.b-dot {
 }
 .bc-tag {
     font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--bc-color, var(--browser-accent));
     color: color-mix(in srgb, var(--bc-color, var(--browser-accent)) 60%, white 40%);
     margin-bottom: 10px;
 }
@@ -364,7 +366,8 @@ button.b-dot {
     background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
     border-radius: 14px 14px 0 0;
     font-family: var(--font-d); font-size: clamp(26px, 2.8vw, 38px);
-    font-weight: 300; color: color-mix(in srgb, var(--bc-color, rgba(255,255,255,.8)) 55%, white 45%);
+    font-weight: 300; color: var(--bc-color, rgba(255,255,255,.8));
+    color: color-mix(in srgb, var(--bc-color, rgba(255,255,255,.8)) 55%, white 45%);
 }
 .bc-rendered tbody td {
     background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.07);
@@ -849,8 +852,8 @@ button.b-dot {
 
     /* ── Fullscreen overlays ── */
     .overlay {
-        width: 100dvw;
-        height: 100dvh;
+        width: 100vw; width: 100dvw;
+        height: 100vh; height: 100dvh;
         border-radius: 0;
     }
 
@@ -919,15 +922,15 @@ button.b-dot {
 
     /* Browser overlays (calendar, portfolio) also go fullscreen */
     #ov-computer,
-    #ov-calendar { width: 100dvw; }
+    #ov-calendar { width: 100vw; width: 100dvw; }
     .browser,
     .browser-slim {
         border-radius: 0;
-        height: 100dvh;
+        height: 100vh; height: 100dvh;
     }
 
     /* Headphones / Spotify: give the panel room */
-    .panel { max-height: 100dvh; border-radius: 0; padding: 72px 24px 32px; }
+    .panel { max-height: 100vh; max-height: 100dvh; border-radius: 0; padding: 72px 24px 32px; }
 
     /* Scroll cue: smaller on mobile */
     .hero-foot { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
