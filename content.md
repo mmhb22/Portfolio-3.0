@@ -324,20 +324,15 @@ gallery: true
 ![](images/projects/photography/film/Photography_film_001.jpg)
 ![](images/projects/photography/film/Photography_film_002.jpg)
 ![](images/projects/photography/film/Photography_film_003.jpg)
-![](images/projects/photography/film/Photography_film_004.jpg)
-![](images/projects/photography/film/Photography_film_005.jpg)
-![](images/projects/photography/film/Photography_film_006.jpg)
-![](images/projects/photography/film/Photography_film_007.jpg)
 ![](images/projects/photography/film/Photography_film_008.jpg)
-![](images/projects/photography/film/Photography_film_009.jpeg)
-![](images/projects/photography/film/Photography_film_010.jpeg)
+![](images/projects/photography/film/Photography_film_009.jpg)
+![](images/projects/photography/film/Photography_film_010.jpg)
 ![](images/projects/photography/film/Photography_film_011.jpg)
 ![](images/projects/photography/film/Photography_film_012.jpg)
 ![](images/projects/photography/film/Photography_film_013.jpg)
 ![](images/projects/photography/film/Photography_film_014.jpg)
 ![](images/projects/photography/film/Photography_film_015.jpg)
 ![](images/projects/photography/film/Photography_film_016.jpg)
-![](images/projects/photography/film/Photography_film_017.jpg)
 ![](images/projects/photography/film/Photography_film_018.jpg)
 ![](images/projects/photography/film/Photography_film_019.jpg)
 ![](images/projects/photography/film/Photography_film_020.jpg)
@@ -349,10 +344,8 @@ gallery: true
 ![](images/projects/photography/film/Photography_film_026.jpg)
 ![](images/projects/photography/film/Photography_film_027.jpg)
 ![](images/projects/photography/film/Photography_film_028.jpg)
-![](images/projects/photography/film/Photography_film_029.jpg)
 ![](images/projects/photography/film/Photography_film_030.jpg)
 ![](images/projects/photography/film/Photography_film_031.jpg)
-![](images/projects/photography/film/Photography_film_032.jpg)
 
 ---
 
@@ -364,14 +357,29 @@ year: 2020–2024
 role: Photographer
 tools: Canon · Lightroom
 duration: —
-image: images/archive/archive-5.jpg
+image: images/projects/photography/digital/Photography_Digital_001.jpeg
 gallery: true
 
 ### Gallery
 
-![Are You Still Lovin It?](images/archive/archive-4.jpg)
-![Music](images/archive/archive-8.jpg)
-![Impossível](images/archive/archive-7.jpg)
+![](images/projects/photography/digital/Photography_Digital_001.jpeg)
+![](images/projects/photography/digital/Photography_Digital_002.jpeg)
+![](images/projects/photography/digital/Photography_Digital_003.jpeg)
+![](images/projects/photography/digital/Photography_Digital_004.jpeg)
+![](images/projects/photography/digital/Photography_Digital_005.jpeg)
+![](images/projects/photography/digital/Photography_Digital_006.jpeg)
+![](images/projects/photography/digital/Photography_Digital_007.jpeg)
+![](images/projects/photography/digital/Photography_Digital_008.jpeg)
+![](images/projects/photography/digital/Photography_Digital_009.jpeg)
+![](images/projects/photography/digital/IMG_0085.jpeg)
+![](images/projects/photography/digital/IMG_0668.jpeg)
+![](images/projects/photography/digital/IMG_2104.jpeg)
+![](images/projects/photography/digital/IMG_2105.jpeg)
+![](images/projects/photography/digital/IMG_2623.jpeg)
+![](images/projects/photography/digital/IMG_4118.jpeg)
+![](images/projects/photography/digital/IMG_7875.jpeg)
+![](images/projects/photography/digital/IMG_9096.jpeg)
+![](images/projects/photography/digital/IMG_9910.jpeg)
 
 ---
 
