@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 // Prevent browser from auto-scrolling to the saved position before our scroll-scrubbed
 // Lottie is ready — we restore it manually once everything is initialised.
