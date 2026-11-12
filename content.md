@@ -311,10 +311,10 @@ Ongoing campaign work for Clearlight spanning digital ads, social media assets, 
 ## Film
 accent: #b89c7a
 tag: Photography · 35mm and 120 Film
-subtitle: Personal work shot on film.
-year: 2019–2024
+subtitle: Everyday life moments shot on film.
+year: 2019–2026
 role: Photographer
-tools: Pentax 6x7 · Minolta x-370 · Canon A-1 · Canon Snappy S
+tools: Pentax 6x7 · Minolta x-370 · Canon A-1 · Canon Snappy S · Yashica Electro 35 gsn
 duration: —
 image: images/projects/photography/film/Photography_film_001.jpg
 gallery: true
@@ -353,9 +353,9 @@ gallery: true
 accent: #4a6a9a
 tag: Photography · Digital
 subtitle: Digital photography exploring composition, color, and everyday subjects.
-year: 2020–2024
+year: 2020–2026
 role: Photographer
-tools: Canon · Lightroom
+tools: Shot on iPhone · Lightroom
 duration: —
 image: images/projects/photography/digital/Photography_Digital_001.jpeg
 gallery: true
@@ -373,13 +373,9 @@ gallery: true
 ![](images/projects/photography/digital/Photography_Digital_009.jpeg)
 ![](images/projects/photography/digital/IMG_0085.jpeg)
 ![](images/projects/photography/digital/IMG_0668.jpeg)
-![](images/projects/photography/digital/IMG_2104.jpeg)
-![](images/projects/photography/digital/IMG_2105.jpeg)
 ![](images/projects/photography/digital/IMG_2623.jpeg)
-![](images/projects/photography/digital/IMG_4118.jpeg)
 ![](images/projects/photography/digital/IMG_7875.jpeg)
 ![](images/projects/photography/digital/IMG_9096.jpeg)
-![](images/projects/photography/digital/IMG_9910.jpeg)
 
 ---
 
