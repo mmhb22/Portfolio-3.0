@@ -44,8 +44,8 @@
     </style>
 
     <!-- Styles (non-blocking) -->
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="styles.css">
-    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="styles.css?v=3">
+    <noscript><link rel="stylesheet" href="styles.css?v=3"></noscript>
 
     <!-- Libraries (deferred so they don't block initial render) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -415,7 +415,7 @@
 </div>
 
 <!-- Script (deferred — runs after DOM and all deferred libraries above) -->
-<script src="script.js" defer></script>
+<script src="script.js?v=3" defer></script>
 
 </body>
 </html>

@@ -939,7 +939,7 @@ function _renderPhotoGallery(el, proj) {
                 <h2 class="bc-title" style="margin-bottom:0">${_currentBrowserProject}</h2>
             </div>
             <div class="bc-gallery-main">
-                <button class="bc-gallery-arrow bc-gallery-arrow-l" onclick="window._galleryArrow(-1)">&#8592;</button>
+                <button class="bc-gallery-arrow bc-gallery-arrow-l" id="bc-arrow-l" onclick="window._galleryArrow(-1)" style="opacity:.25;pointer-events:none">&#8592;</button>
                 <div class="bc-gallery-scroll" id="bc-gallery-scroll">
                     ${imgs.map((img, i) => `
                         <div class="bc-gallery-photo${i === 0 ? ' active' : ''}" id="bc-gphoto-${i}" data-idx="${i}">
@@ -948,7 +948,7 @@ function _renderPhotoGallery(el, proj) {
                     ).join('')}
                     <div class="bc-gallery-counter" id="bc-gallery-counter">1 / ${imgs.length}</div>
                 </div>
-                <button class="bc-gallery-arrow bc-gallery-arrow-r" onclick="window._galleryArrow(1)">&#8594;</button>
+                <button class="bc-gallery-arrow bc-gallery-arrow-r" id="bc-arrow-r" onclick="window._galleryArrow(1)"${imgs.length <= 1 ? ' style="opacity:.25;pointer-events:none"' : ''}>&#8594;</button>
             </div>
             <div class="bc-gallery-strip" id="bc-gallery-strip">
                 ${imgs.map((img, i) => `
@@ -969,6 +969,12 @@ window._jumpToPhoto = idx => {
         ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     const counter = document.getElementById('bc-gallery-counter');
     if (counter) counter.textContent = `${idx + 1} / ${photos.length}`;
+    // Dim arrows at boundaries
+    const arrowL = document.getElementById('bc-arrow-l');
+    const arrowR = document.getElementById('bc-arrow-r');
+    const atStart = idx === 0, atEnd = idx === photos.length - 1;
+    if (arrowL) { arrowL.style.opacity = atStart ? '0.25' : '1'; arrowL.style.pointerEvents = atStart ? 'none' : 'auto'; }
+    if (arrowR) { arrowR.style.opacity = atEnd   ? '0.25' : '1'; arrowR.style.pointerEvents = atEnd   ? 'none' : 'auto'; }
 };
 
 window._galleryArrow = dir => {

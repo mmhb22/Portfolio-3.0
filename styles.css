@@ -514,7 +514,7 @@ button.b-dot {
     border: 1px solid rgba(255,255,255,.14);
     color: rgba(255,255,255,.82); font-size: 16px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: background .18s, color .18s;
+    transition: background .18s, color .18s, opacity .2s;
 }
 .bc-gallery-arrow:hover { background: rgba(255,255,255,.15); color: #fff; }
 .bc-gallery-arrow-l { left: 10px; }
