@@ -33,19 +33,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"></noscript>
 
-    <!-- Critical styles inline — covers the page veil so there's no FOUC while styles.css loads -->
-    <style>
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        :root{--bg:#f4efe6;--workspace-bg:#8bc7d0}
-        html{background:var(--workspace-bg);overflow-x:hidden}
-        body{background:var(--bg);overflow-x:hidden}
-        #page-veil{position:fixed;inset:0;z-index:10000;background:var(--bg);transition:opacity .5s ease;pointer-events:none}
-        @media(prefers-reduced-motion:reduce){#page-veil{transition:none}}
-    </style>
-
-    <!-- Styles (non-blocking) -->
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="styles.css?v=3">
-    <noscript><link rel="stylesheet" href="styles.css?v=3"></noscript>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=3">
 
     <!-- Libraries (deferred so they don't block initial render) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
