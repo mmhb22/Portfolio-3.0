@@ -609,7 +609,7 @@ button.b-dot {
 .browser-body-embed iframe { flex: 1; min-height: 0; width: 100%; display: block; }
 
 .spotify-embed  { border-radius: 10px; }
-.calendly-embed { min-width: 280px; }
+.calendly-embed { min-width: 280px; display: flex; flex-direction: column; }
 
 /* ── About ───────────────────────────────────────────────── */
 .p-contact { margin-top: 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
